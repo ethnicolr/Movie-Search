@@ -22,4 +22,4 @@ const mapStateToProps = state => ({
     movies: state.moviesList.movies
 })
 
-export default  connect(mapStateToProps ,null)(MoviesList)
+export default MoviesList

@@ -8,10 +8,10 @@ const NavBar = props => {
     return (
         <nav>
             <ul>
-                <li><Link to=""> Popular </Link></li>
-                <li><Link to=""> Top rated </Link></li>
-                <li><Link to=""> Up comning </Link></li>
-                <li><Link to=""> Favorite </Link></li>
+                <li><Link to="/"> Popular </Link></li>
+                <li><Link to="upcoming">Up comning</Link></li>
+                <li><Link to="top_rated">Top rated</Link></li>
+                <li><Link to="search"> Favorite </Link></li>
             </ul>
         </nav>
     )
