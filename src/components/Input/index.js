@@ -1,37 +1,50 @@
-import React from 'react'
-import { connect } from "react-redux";
-import PropTypes from 'prop-types'
-import {API_KEY, API_HOSTNAME} from "./../../constants/Api";
-import {fetchMovies} from './../../actions'
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { debounce } from 'lodash';
+import PropTypes from 'prop-types';
+
+import { fetchSearch } from './../../actions';
+import './style.scss';
 
 const Input = props => {
+  const [value, setValue] = useState("");
+  const dispath = useDispatch();
 
-   const handleChange = (value) =>{
-       console.log("test");
-       props.fetchMovies(value);
-    //    fetch(`${API_HOSTNAME}search/movie?&${API_KEY}&query=${value}&page=1`)
-    //    .then(response => response.json())
-    //    .then(json => {
-    //        console.log(json);
-    //    })
-
+  const handleChange = value => {
+    if (value.length) {
+      setValue(value);
     }
+  };
 
-    return (
-        <div>
-            <form>
-                <input
-                type="text"
-                placeholder="Search movies..."
-                onChange = {e => handleChange(e.target.value)}
-                />
-            </form>
-        </div>
-    )
-}
+  const delayFetch = debounce(value => {
+    console.log("test");
+    if (value.length > 2) {
+      dispath(
+        fetchSearch({
+          pathname: "/search",
+          search: value
+        })
+      );
+    }
+  }, 1000);
 
-Input.propTypes = {
+  return (
+    <div className="search">
+      <form>
+        <input
+          className="search__input"
+          type="text"
+          placeholder="Search movies..."
+          onChange={e => {
+            handleChange(e.target.value);
+            delayFetch(e.target.value);
+          }}
+        />{" "}
+      </form>{" "}
+    </div>
+  );
+};
 
-}
+Input.propTypes = {};
 
-export default connect(null, {fetchMovies})(Input)
+export default Input;

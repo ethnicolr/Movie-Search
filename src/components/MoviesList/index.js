@@ -1,25 +1,25 @@
-import React from 'react'
-import {connect} from "react-redux" 
-import PropTypes from 'prop-types'
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import PropTypes from "prop-types";
 
-const MoviesList = props => {
-    return (
-        <div>
-            {props.movies.map(movie => {
-                return (
-                    <li key={movie.id}>{movie.title}</li>
-                )
-            })}
-        </div>
-    )
-}
+import Movie from "./../Movie";
 
-MoviesList.propTypes = {
+import "./style.scss";
 
-}
+const MoviesList = ({ movies }) => {
+  return (
+    <ul className="list-movies">
+      {movies.map(movie => {
+        return (
+          <li className="list-movies__item" key={movie.id}>
+            <Movie link={`/movie/${movie.id}`} movieData={movie} />
+          </li>
+        );
+      })}
+    </ul>
+  );
+};
 
-const mapStateToProps = state => ({
-    movies: state.moviesList.movies
-})
+MoviesList.propTypes = {};
 
-export default MoviesList
+export default MoviesList;

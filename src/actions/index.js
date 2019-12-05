@@ -1,7 +1,9 @@
 import {
   FETCH_MOVIES_REQUEST,
   FETCH_MOVIES_FAILURE,
-  RECEIVE_MOVIES
+  RECEIVE_MOVIES,
+  RECEIVE_SEARCH,
+  RECEIVE_DETAILS
 } from "./../constants";
 
 import { getUrl } from "./../constants/Api";
@@ -9,6 +11,16 @@ import { getUrl } from "./../constants/Api";
 const receiveMovies = data => ({
   type: RECEIVE_MOVIES,
   movies: data.results
+});
+
+const receiveSearch = data => ({
+  type: RECEIVE_SEARCH, 
+  results: data.results
+})
+
+export const receiveDetails = data => ({
+  type: RECEIVE_DETAILS,
+  data: data
 });
 
 const calApi = url => 
@@ -19,9 +31,20 @@ const calApi = url =>
 
 export const fetchMovies = pathname => async dispatch => {
   const url = getUrl[pathname]();
-  const json = await calApi(url);
-  console.log(json)
-  dispatch(receiveMovies(json))
+  const data = await calApi(url);
+  dispatch(receiveMovies(data))
+}
+
+export const fetchSearch = options => async dispatch => {
+  const url = getUrl[options.pathname](options);
+  const data = await calApi(url);
+  dispatch(receiveSearch(data));
+}
+
+export const fetchDetails = movieId => async dispatch => {
+  const url = getUrl["/movie"](movieId);
+  const data = await calApi(url);
+  dispatch(receiveDetails(data));
 }
 
 

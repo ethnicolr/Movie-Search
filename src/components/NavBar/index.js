@@ -2,16 +2,17 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {
     Link
-  } from "react-router-dom";
+  } from 'react-router-dom';
+import './style.scss'
 
 const NavBar = props => {
     return (
-        <nav>
-            <ul>
-                <li><Link to="/"> Popular </Link></li>
-                <li><Link to="upcoming">Up comning</Link></li>
-                <li><Link to="top_rated">Top rated</Link></li>
-                <li><Link to="search"> Favorite </Link></li>
+        <nav className="main-nav">
+            <ul className="main-nav__items">
+                <li className="main-nav__item"><Link to="/"> Popular </Link></li>
+                <li className="main-nav__item"><Link to="/upcoming">Up comning</Link></li>
+                <li className="main-nav__item"><Link to="/top_rated">Top rated</Link></li>
+                <li className="main-nav__item"><Link to="/search"> Favorite </Link></li>
             </ul>
         </nav>
     )

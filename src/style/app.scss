@@ -1,0 +1,21 @@
+@import './normalize.css';
+
+a {
+    text-decoration: none;
+    border: none;
+    outline: none;
+    color: #fff;
+}
+
+ul {
+    margin: 0;
+    padding: 0;
+}
+
+li {
+    list-style: none;
+}
+
+img {
+    width: 100%;
+}

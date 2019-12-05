@@ -1,0 +1,16 @@
+.main-nav {
+    grid-area: nv;
+    font-size: 20px;
+    font-weight: 600;
+    margin-top: 20px;
+    &__items {
+        display: flex;
+        justify-content: space-around;
+    }
+
+    a {
+        &:hover {
+            color: #C83564;
+        }
+    }
+}

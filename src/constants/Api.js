@@ -11,4 +11,5 @@ export const getUrl = {
   "/popular": () =>
     `${API_HOSTNAME}movie/popular?&${API_KEY}&page=1`,
     "/": () => `${API_HOSTNAME}movie/popular?&${API_KEY}&page=1`,
+    "/movie": (movieId) => `${API_HOSTNAME}movie/${movieId}?&${API_KEY}&language=en-US`
 };
