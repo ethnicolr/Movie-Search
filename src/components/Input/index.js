@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { debounce } from 'lodash';
 import PropTypes from 'prop-types';
 
 import { fetchSearch } from './../../actions';
+import searchList from './../SearchList';
 import './style.scss';
+import SearchList from './../SearchList';
 
 const Input = props => {
   const [value, setValue] = useState("");
@@ -28,6 +30,9 @@ const Input = props => {
     }
   }, 1000);
 
+  const searchList = useSelector(state => state.search.results)
+
+
   return (
     <div className="search">
       <form>
@@ -39,8 +44,9 @@ const Input = props => {
             handleChange(e.target.value);
             delayFetch(e.target.value);
           }}
-        />{" "}
-      </form>{" "}
+        />
+      </form>
+      <SearchList list={searchList}/>
     </div>
   );
 };

@@ -4,19 +4,36 @@ import {fetchMovies} from './../../actions'
 import MoviesList from './../MoviesList'
 
 const LoadMovies = props => {
+    const {pathname} = props.location;
+
     const dispatch = useDispatch()
+    
+    const genres = useSelector(state => state.filter.activeGenres);
+    const sortBy = useSelector(state => state.filter.sortBy);
 
     useEffect(() => {
-            dispatch(fetchMovies(props.location.pathname))
+        if (pathname !== "/favorite"){
+            dispatch(fetchMovies({
+                path: pathname,
+                genres: genres,
+                sortBy: sortBy
+
+            }))
+        }
         
-    }, [props.location.pathname])
+    }, [pathname,genres, dispatch, sortBy])
 
-    const movies = useSelector(state => state.moviesList.movies);
+    let movies = useSelector(state => state.moviesList.movies);
+    let favorite = useSelector(state => state.favorite);
+    
 
+    if (pathname === "/favorite"){
+        movies = favorite;
+    }
 
     return (
         <>
-            <MoviesList movies={movies}/>
+            <MoviesList movies={movies} favorite={favorite} />
         </>
     )
 }

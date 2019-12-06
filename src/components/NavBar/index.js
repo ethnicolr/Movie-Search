@@ -12,7 +12,8 @@ const NavBar = props => {
                 <li className="main-nav__item"><Link to="/"> Popular </Link></li>
                 <li className="main-nav__item"><Link to="/upcoming">Up comning</Link></li>
                 <li className="main-nav__item"><Link to="/top_rated">Top rated</Link></li>
-                <li className="main-nav__item"><Link to="/search"> Favorite </Link></li>
+                <li className="main-nav__item"><Link to="/favorite">Favorite </Link></li>
+                <li className="main-nav__item"><Link to="/filter">Filter </Link></li>
             </ul>
         </nav>
     )

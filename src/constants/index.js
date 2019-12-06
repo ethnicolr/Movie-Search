@@ -5,3 +5,10 @@ export const RECEIVE_MOVIES = "RECEIVE_MOVIES";
 export const RECEIVE_SEARCH = "RECEIVE_SEARCH"
 
 export const RECEIVE_DETAILS = "RECEIVE_DETAILS";
+
+export const ADD_FAVORITE = "ADD_FAVORITE";
+export const REMOVE_FAVORITE = "REMOVE_FAVORITE";
+
+export const RECEIVE_GENRES = "RECEIVE_GENRES";
+export const CHANGE_GENRES = "CHANGE_GENRES";
+export const SORT_BY = "SORT_BY";

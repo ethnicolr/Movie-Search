@@ -1,0 +1,38 @@
+.search-list {
+    position: relative;
+    background: #0D0D0D;
+    color: #fff;
+    z-index: 10;
+
+    &__item {
+        border-bottom: 1px solid #151515;
+
+        &:hover {
+            background-color: #494949;
+        }
+    }
+
+    &__link {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 17px;
+        padding: 5px;
+        padding-right: 20px;
+
+        img {
+            width: 40px;
+        }
+    }
+
+    &__title {
+        width: 30%;
+        text-align: left;
+        font-size: 17px;
+        color: #fff;
+
+        span {
+            font-size: 15px;
+        }
+    }
+}

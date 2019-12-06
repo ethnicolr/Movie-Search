@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import { Route, Switch } from "react-router";
 import Header from "./../Header";
 import LoadMovies from "./../LoadMovies";
-import LoadDetails from "../LoadDetails";
+import LoadDetails from "./../LoadDetails";
+import Filter from "./../Filter"
 
 export default class index extends Component {
   render() {
@@ -30,6 +31,11 @@ export default class index extends Component {
             exact
             path="/favorite"
             render={props => <LoadMovies {...props} />}
+          />
+          <Route
+            exact
+            path="/filter"
+            component={Filter}
           />
           <Route
             exact
