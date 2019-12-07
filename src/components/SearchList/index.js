@@ -4,13 +4,14 @@ import PropTypes from "prop-types";
 
 import './style.scss'
 
-const SearchList = ({ list }) => {
+const SearchList = ({ list, select }) => {
   return (
     <div className="search-list">
       <ul className="search-list__items">
-        {list.map(movie => {
+        {list.map((movie, index) => {
+          const active = select === index ? "search-list__item--active" : "";
           return (
-            <li className="search-list__item">
+            <li className={`search-list__item ${active}`} key={movie.id}>
               <Link to={`/movie/${movie.id}`} className="search-list__link">
                 <img
                   src={`https://image.tmdb.org/t/p/w300/${movie.poster_path}`}

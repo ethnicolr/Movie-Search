@@ -15,7 +15,8 @@ import { getUrl } from "./../constants/Api";
 
 const receiveMovies = data => ({
   type: RECEIVE_MOVIES,
-  movies: data.results
+  movies: data.results,
+  pages: data.total_pages
 });
 
 const receiveSearch = data => ({

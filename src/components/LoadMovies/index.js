@@ -1,43 +1,64 @@
-import React, { useEffect, useRef  } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
-import {fetchMovies} from './../../actions'
-import MoviesList from './../MoviesList'
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchMovies } from "./../../actions";
+import MoviesList from "./../MoviesList";
+import Pagination from "./../Pagination";
 
 const LoadMovies = props => {
-    const {pathname} = props.location;
+  const { pathname, search } = props.location;
 
-    const dispatch = useDispatch()
-    
-    const genres = useSelector(state => state.filter.activeGenres);
-    const sortBy = useSelector(state => state.filter.sortBy);
+  const [page, setPage] = useState(0);
 
-    useEffect(() => {
-        if (pathname !== "/favorite"){
-            dispatch(fetchMovies({
-                path: pathname,
-                genres: genres,
-                sortBy: sortBy
+  const dispatch = useDispatch();
 
-            }))
-        }
-        
-    }, [pathname,genres, dispatch, sortBy])
+  const genres = useSelector(state => state.filter.activeGenres);
+  const sortBy = useSelector(state => state.filter.sortBy);
+  const pages = useSelector(state => state.moviesList.pages);
 
-    let movies = useSelector(state => state.moviesList.movies);
-    let favorite = useSelector(state => state.favorite);
-    
-
-    if (pathname === "/favorite"){
-        movies = favorite;
+  useEffect(() => {
+    if (pathname !== "/favorite") {
+      dispatch(
+        fetchMovies({
+          path: pathname,
+          genres: genres,
+          sortBy: sortBy,
+          search: search
+        })
+      );
+      setPage(0);
     }
+  }, [pathname, genres, dispatch, sortBy, search]);
 
-    return (
-        <>
-            <MoviesList movies={movies} favorite={favorite} />
-        </>
-    )
-}
+  const onPageChange = data => {
+    setPage(data.selected);
+    dispatch(
+      fetchMovies({
+        path: pathname,
+        genres: genres,
+        sortBy: sortBy,
+        search: search,
+        page: ++data.selected
+      })
+    );
+  };
 
+  let movies = useSelector(state => state.moviesList.movies);
+  let favorite = useSelector(state => state.favorite);
 
+  if (pathname === "/favorite") {
+    movies = favorite;
+  }
+
+  return (
+    <>
+      <MoviesList movies={movies} favorite={favorite} />
+      <Pagination
+        forcePage={page}
+        onPageChange={onPageChange}
+        totalPages={pages}
+      />
+    </>
+  );
+};
 
 export default LoadMovies;

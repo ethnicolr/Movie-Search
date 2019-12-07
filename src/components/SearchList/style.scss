@@ -6,7 +6,9 @@
 
     &__item {
         border-bottom: 1px solid #151515;
-
+        &--active {
+            background-color: #3d3d3d;
+        }
         &:hover {
             background-color: #494949;
         }

@@ -9,7 +9,7 @@ const LoadDetails = props => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchDetails(props.movieId));
-  }, []);
+  }, [props.movieId, dispatch]);
 
   const data = useSelector(state => state.movieDetails.movieData);
 

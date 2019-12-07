@@ -5,7 +5,8 @@ import {
 } from "./../constants";
 
 const initialState = {
-  movies: []
+  movies: [],
+  pages: 0
 };
 
 function moviesList(state = initialState, action) {
@@ -14,7 +15,8 @@ function moviesList(state = initialState, action) {
     case RECEIVE_MOVIES:
       return {
         ...state,
-        movies: action.movies
+        movies: action.movies,
+        pages: action.pages
       };
     default:
       return state;
