@@ -23,7 +23,7 @@
         grid-template-columns: 1fr 2fr;
         grid-template-areas:
             "lf rg"
-            "ct ct"
+            "cl cl"
             "rc rc";
         grid-column-gap: 20px;
         position: relative;
@@ -45,9 +45,9 @@
     }
 
     &__cast {
-        grid-area: ct;
+        grid-area: cl;
     }
-    
+
     &__info {
         display: flex;
         justify-content: space-between;
@@ -57,13 +57,16 @@
             font-size: 15px;
         }
     }
+
     &__title {
         font-size: 30px;
         color: #0F9FBF;
     }
+
     &__text {
         font-size: 16px;
     }
+
     &__span {
         color: #0F9FBF;
     }
@@ -72,9 +75,12 @@
         font-size: 25px;
     }
 
-    
+
     &__headline {
         font-size: 25px;
-    margin: 25px 20px;
+        margin: 25px 20px;
+        color: #fff;
+        position: relative;
+        z-index: 10;
     }
 }

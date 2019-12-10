@@ -51,7 +51,7 @@ const LoadMovies = props => {
 
   return (
     <>
-      <MoviesList movies={movies} favorite={favorite} />
+      <MoviesList movies={movies} favorite={favorite} grid={"list-movies--small"}/>
       <Pagination
         forcePage={page}
         onPageChange={onPageChange}

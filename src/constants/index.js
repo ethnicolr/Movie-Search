@@ -12,3 +12,4 @@ export const REMOVE_FAVORITE = "REMOVE_FAVORITE";
 export const RECEIVE_GENRES = "RECEIVE_GENRES";
 export const CHANGE_GENRES = "CHANGE_GENRES";
 export const SORT_BY = "SORT_BY";
+export const RECEIVE_CREDITS = "RECEIVE_CREDITS";

@@ -8,7 +8,8 @@ import {
   REMOVE_FAVORITE,
   CHANGE_GENRES,
   RECEIVE_GENRES,
-  SORT_BY
+  SORT_BY,
+  RECEIVE_CREDITS
 } from "./../constants";
 
 import { getUrl } from "./../constants/Api";
@@ -54,6 +55,10 @@ export const sortBy = sort => ({
   sortBy: sort
 });
 
+export const receiveCredits = data => ({
+  type: RECEIVE_CREDITS,
+  credits: data.cast
+});
 
 const callApi = url => 
   fetch(url)
@@ -74,9 +79,10 @@ export const fetchSearch = options => async dispatch => {
 }
 
 export const fetchDetails = movieId => async dispatch => {
-  const url = getUrl["/movie"](movieId);
-  const data = await callApi(url);
-  dispatch(receiveDetails(data));
+  const movie = await callApi(getUrl["/movie"](movieId));
+  const credits = await callApi(getUrl["/credits"](movieId));
+  dispatch(receiveDetails(movie));
+  dispatch(receiveCredits(credits));
 }
 
 export const fetchGenres = () => async dispatch => {
@@ -85,14 +91,3 @@ export const fetchGenres = () => async dispatch => {
   dispatch(receiveGenres(data));
 };
 
-
-// export function fetchMovies(value) {
-//   console.log(value);
-//   return function(dispatch) {
-//     return fetch(
-//       `${API_HOSTNAME}search/movie?&${API_KEY}&query=${value}&page=1`
-//     )
-//       .then(response => response.json())
-//       .then(json => dispatch(receiveMovies(json)));
-//   };
-// }

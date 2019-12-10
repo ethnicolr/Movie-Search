@@ -1,22 +1,27 @@
-import {
-    RECEIVE_DETAILS
-  } from "./../constants";
+import { RECEIVE_DETAILS, RECEIVE_CREDITS } from "./../constants";
 
-  const initialState = {
-      movieData: {}
+const initialState = {
+  movieData: {},
+  credits: []
+};
+
+function movieDetails(state = initialState, action) {
+  switch (action.type) {
+    case RECEIVE_DETAILS:
+      return {
+        ...state,
+        movieData: action.data
+      };
+
+    case RECEIVE_CREDITS:
+      return {
+        ...state,
+        credits: action.credits
+      };
+
+    default:
+      return state;
   }
+}
 
-  function movieDetails (state = initialState, action){
-      switch (action.type) {
-          case RECEIVE_DETAILS:
-              return {
-                  ...state, 
-                  movieData: action.data
-              }
-      
-          default:
-              return state
-      }
-  }
-
-  export default movieDetails;
+export default movieDetails;

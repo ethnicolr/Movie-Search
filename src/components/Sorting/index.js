@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { sortBy } from "./../../actions";
 import PropTypes from "prop-types";
 
+import "./style.scss";
+
 const Sorting = props => {
   const dispatch = useDispatch();
 

@@ -5,17 +5,18 @@ import PropTypes from 'prop-types';
 
 import MovieDetails from './../MovieDetails';
 
-const LoadDetails = props => {
+const LoadDetails = ({movieId}) => {
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(fetchDetails(props.movieId));
-  }, [props.movieId, dispatch]);
+    dispatch(fetchDetails(movieId));
+  }, [movieId, dispatch]);
 
   const data = useSelector(state => state.movieDetails.movieData);
+  const credits = useSelector(state => state.movieDetails.credits);
 
   return (
     <>
-      <MovieDetails data={data} />
+      <MovieDetails data={data} credits={credits} movieId={movieId}/>
     </>
   );
 };

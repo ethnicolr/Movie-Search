@@ -17,5 +17,9 @@ export const getUrl = {
   "/genres": () =>
     ` https://api.themoviedb.org/3/genre/movie/list?${API_KEY}&language=en-US`,
   "/filter": options =>
-    `${API_HOSTNAME}discover/movie?&${API_KEY}&language=en-US&sort_by=${options.sortBy}&include_adult=false&include_video=false&page=${options.page}&with_genres=${options.genres}`
+    `${API_HOSTNAME}discover/movie?&${API_KEY}&language=en-US&sort_by=${options.sortBy}&include_adult=false&include_video=false&page=${options.page}&with_genres=${options.genres}`,
+    "/credits": movieId =>
+    `https://api.themoviedb.org/3/movie/${movieId}/credits?&${API_KEY}&language=en-US`,
+    "/similar": options =>
+    `https://api.themoviedb.org/3/movie/${options.search}/similar?&${API_KEY}&language=en-USpage=${options.page}`,
 };
