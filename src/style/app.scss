@@ -1,10 +1,18 @@
 @import './normalize.css';
 
+body {
+    font-family: 'Assistant', sans-serif;
+    
+}
 a {
     text-decoration: none;
     border: none;
     outline: none;
     color: #fff;
+    font-weight: 300;
+}
+h1, h2, h3, h4 {
+    font-weight: 300;
 }
 
 ul {
@@ -18,4 +26,10 @@ li {
 
 img {
     width: 100%;
+}
+
+button {
+    border: none;
+    background: none;
+    cursor: pointer;
 }

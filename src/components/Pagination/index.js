@@ -3,6 +3,9 @@ import ReactPaginate from 'react-paginate';
 import './style.scss'
 
 const Pagination = ({ forcePage, onPageChange, totalPages }) => {
+  if (!totalPages){
+    return null
+  }
     return (
         <ReactPaginate
           pageCount={totalPages}

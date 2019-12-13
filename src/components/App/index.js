@@ -8,7 +8,7 @@ import Filter from "./../Filter"
 export default class index extends Component {
   render() {
     return (
-      <>
+      <div>
         <Header />
         <Switch>
           <Route exact path="/" render={props => <LoadMovies {...props} />} />
@@ -45,7 +45,7 @@ export default class index extends Component {
             )}
           />
         </Switch>
-      </>
+      </div>
     );
   }
 }

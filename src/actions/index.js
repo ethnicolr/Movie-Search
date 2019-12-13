@@ -1,62 +1,50 @@
-import {
-  FETCH_MOVIES_REQUEST,
-  FETCH_MOVIES_FAILURE,
-  RECEIVE_MOVIES,
-  RECEIVE_SEARCH,
-  RECEIVE_DETAILS,
-  ADD_FAVORITE,
-  REMOVE_FAVORITE,
-  CHANGE_GENRES,
-  RECEIVE_GENRES,
-  SORT_BY,
-  RECEIVE_CREDITS
-} from "./../constants";
+import * as types from "./../constants";
 
 import { getUrl } from "./../constants/Api";
 
 const receiveMovies = data => ({
-  type: RECEIVE_MOVIES,
+  type: types.RECEIVE_MOVIES,
   movies: data.results,
   pages: data.total_pages
 });
 
 const receiveSearch = data => ({
-  type: RECEIVE_SEARCH, 
+  type: types.RECEIVE_SEARCH, 
   results: data.results
 })
 
 export const receiveDetails = data => ({
-  type: RECEIVE_DETAILS,
+  type: types.RECEIVE_DETAILS,
   data: data
 });
 
 export const addFavorite = movieId => ({
-  type: ADD_FAVORITE,
+  type: types.ADD_FAVORITE,
   movie: movieId
 });
 
 export const removeFavorite = movieId => ({
-  type: REMOVE_FAVORITE,
+  type: types.REMOVE_FAVORITE,
   movie: movieId
 });
 
 export const receiveGenres = data => ({
-  type: RECEIVE_GENRES,
+  type: types.RECEIVE_GENRES,
   genres: data.genres
 });
 
 export const changeGenres = genre => ({
-  type: CHANGE_GENRES,
+  type: types.CHANGE_GENRES,
   genre: genre
 });
 
 export const sortBy = sort => ({
-  type: SORT_BY,
+  type: types.SORT_BY,
   sortBy: sort
 });
 
 export const receiveCredits = data => ({
-  type: RECEIVE_CREDITS,
+  type: types.RECEIVE_CREDITS,
   credits: data.cast
 });
 

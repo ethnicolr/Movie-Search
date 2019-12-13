@@ -5,7 +5,7 @@ import MoviesList from "./../MoviesList";
 import Pagination from "./../Pagination";
 
 const LoadMovies = props => {
-  const { pathname, search } = props.location;
+  const { pathname, search, grid } = props.location;
 
   const [page, setPage] = useState(0);
 
@@ -13,7 +13,7 @@ const LoadMovies = props => {
 
   const genres = useSelector(state => state.filter.activeGenres);
   const sortBy = useSelector(state => state.filter.sortBy);
-  const pages = useSelector(state => state.moviesList.pages);
+  let pages = useSelector(state => state.moviesList.pages);
 
   useEffect(() => {
     if (pathname !== "/favorite") {
@@ -47,11 +47,12 @@ const LoadMovies = props => {
 
   if (pathname === "/favorite") {
     movies = favorite;
+    pages = 0
   }
 
   return (
     <>
-      <MoviesList movies={movies} favorite={favorite} grid={"list-movies--small"}/>
+      <MoviesList movies={movies} favorite={favorite} grid={grid}/>
       <Pagination
         forcePage={page}
         onPageChange={onPageChange}

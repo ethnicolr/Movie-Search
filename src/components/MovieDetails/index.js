@@ -89,7 +89,7 @@ const MovieDetails = ({ data, credits, movieId }) => {
       </div>
       <div className="movie-details__recomend">
       <h2 className="movie-details__headline">Recommendations</h2>
-      <LoadMovies location={{pathname: "/similar", search: movieId}} />
+      <LoadMovies location={{pathname: "/similar", search: movieId}} grid={"list-movies--small"} />
       </div>
     </div>
   );

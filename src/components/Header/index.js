@@ -1,22 +1,38 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
-
+import { withRouter } from "react-router";
 import NavBar from "./../NavBar";
 import Input from "./../Input";
 import logo from "./../../style/react-logo.png";
 import "./style.scss";
 
 const Header = props => {
+  const [hidden, setHidden ] = useState(true);
+
+  const handleClick = () => {
+    setHidden(hidden => !hidden);
+  }
+
+  useEffect(() => {
+   setHidden(true); 
+  }, [props.location.key])
+
+  
+  let btn = hidden ? " header__btn--search" : " header__btn--close";
+
   return (
-    <header className="main-header">
-      <div className="main-header__container">
-        <Link className="main-header__logo" to="/">
-          <img src={logo} className="main-header__img" alt="logo" />
+    <header className="header">
+      <div className="header__container">
+        <Link className="header__logo" to="/">
+          <img src={logo} className="header__img" alt="logo" />
           <h1>Movies-Search</h1>
         </Link>
-        <Input />
         <NavBar />
+        <div className="header__btns">
+          <button className={`header__btn ${btn}`} onClick={handleClick}/>
+        </div>
+        <Input hidden={hidden}/>
       </div>
     </header>
   );
@@ -24,4 +40,4 @@ const Header = props => {
 
 Header.propTypes = {};
 
-export default Header;
+export default withRouter(Header);
