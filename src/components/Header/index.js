@@ -12,6 +12,7 @@ const Header = props => {
 
   const handleClick = () => {
     setHidden(hidden => !hidden);
+    document.body.style.overflow = hidden ? "hidden" : "auto";
   }
 
   useEffect(() => {

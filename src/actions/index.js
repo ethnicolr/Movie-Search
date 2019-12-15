@@ -13,6 +13,10 @@ const receiveSearch = data => ({
   results: data.results
 })
 
+export const clearSearch = () => ({
+  type: types.CLEAR_SEARCH
+});
+
 export const receiveDetails = data => ({
   type: types.RECEIVE_DETAILS,
   data: data

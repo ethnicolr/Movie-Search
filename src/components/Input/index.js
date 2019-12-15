@@ -1,35 +1,40 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { debounce } from "lodash";
 import PropTypes from "prop-types";
 
-import { fetchSearch } from "./../../actions";
+import { fetchSearch, clearSearch } from "./../../actions";
 import SearchList from "./../SearchList";
 import "./style.scss";
 
 const Input = ({ hidden }) => {
   const [value, setValue] = useState("");
-  
+
   const dispath = useDispatch();
   let history = useHistory();
 
-  const handleChange = value => {
-    if (value.length) {
-      setValue(value);
-    }
+  const handleChange = e => {
+    let value = e.target.value;
+    setValue(value);
+    delay(value);
   };
 
-  const delayFetch = debounce(value => {
-    if (value.length > 2) {
-      dispath(
-        fetchSearch({
-          path: "/search",
-          search: value
-        })
-      );
-    }
-  }, 1000);
+  const delay = useCallback(
+    debounce(value => {
+      if (value.length) {
+        dispath(
+          fetchSearch({
+            path: "/search",
+            search: value
+          })
+        );
+      } else {
+        dispath(clearSearch());
+      }
+    }, 500),
+    []
+  );
 
   const searchList = useSelector(state => state.search.results);
 
@@ -41,7 +46,10 @@ const Input = ({ hidden }) => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    history.push({ pathname: "/search", search: value });
+    if (value.length) {
+      history.push({ pathname: "/search", search: value });
+      document.body.style.overflow = "auto";
+    }
   };
 
   return (
@@ -53,10 +61,7 @@ const Input = ({ hidden }) => {
               ref={inputEl}
               className="search__input"
               type="text"
-              onChange={e => {
-                handleChange(e.target.value);
-                delayFetch(e.target.value);
-              }}
+              onChange={handleChange}
             />
           </form>
           <SearchList list={searchList} />
