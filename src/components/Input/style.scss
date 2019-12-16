@@ -1,35 +1,75 @@
 .search {
-  height: 100%;
-  width: 100%;
-  display: block;
-  position: fixed;
-  z-index: 15;
-  top: 0;
-  left: 0;
-  background-color: #000;
+  // height: 100%;
+  // width: 100%;
+  // display: block;
+  // position: fixed;
+  // z-index: 15;
+  // top: 0;
+  // left: 0;
+  // background-color: #000;
   grid-area: in;
-   overflow-y: scroll;
+  //  overflow-y: scroll;
+  position: relative;
+  height: 50px;
+  z-index: 20;
+  grid-area: in;
+
 
   &--hidden {
-    display: none;
+    // display: none;
   }
 
   &__container {
     width: 80%;
     text-align: center;
-    margin: 100px auto;
+
+    // margin: 100px auto;
+    @media (max-width: 1000px) {
+      display: none;
+      height: 100%;
+      width: 100%;
+      position: fixed;
+      z-index: 15;
+      top: 0;
+      left: 0;
+      background-color: #000;
+      &--hidden {
+        display: block;
+      }
+    }
   }
 
   &__input {
+    box-sizing: border-box;
+    outline: none;
+    border: 0;
+    padding: 5px;
+    padding-left: 30px;
     width: 100%;
-    border: none;
-    padding: 10px;
-    border-radius: 5px;
-    background: #323232;
     color: #fff;
-    text-align: center;
-    font-weight: 600;
-    font-size: 23px;
+    font-family: inherit;
+    font-size: 18px;
+    font-weight: 300;
+    background: transparent;
+    border-bottom: 1px solid #0F9FBF;
+
+    @media (max-width: 1000px) {
+      margin-top: 150px;
+      width: 80%;
+
+    }
+
+  }
+
+  &__btn {
+    width: 50px;
+    display: none;
+    position: relative;
+    z-index: 100;
+
+    @media (max-width: 1000px) {
+      display: block;
+    }
   }
 
   &__open {

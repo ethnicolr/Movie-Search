@@ -4,9 +4,9 @@ import PropTypes from "prop-types";
 
 import './style.scss'
 
-const SearchList = ({ list, select }) => {
+const SearchList = ({ list, select, hidden }) => {
   return (
-    <div className="search-list">
+    <div className={hidden  ? "serach-list search-list--hidden " : "search-list"}>
       <ul className="search-list__items">
         {list.map((movie, index) => {
           const active = select === index ? "search-list__item--active" : "";

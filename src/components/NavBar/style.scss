@@ -1,4 +1,4 @@
-.main-nav {
+.nav {
     grid-area: nv;
     font-size: 20px;
     font-weight: 600;
@@ -7,7 +7,28 @@
         display: flex;
         justify-content: space-around;
         align-items: center;
+        @media (max-width: 1000px) {
+            display: none;
+            position: absolute;
+            z-index: 200;
+            left: 0;
+            top: 150px;
+            width: 100%;
+            background: #000;
+            
+        }
+        @media (max-width: 768px) {
+            flex-direction: column;
+            
+        }
+
+        &--hidden {
+            display: flex;
+            
+        }
+        
     }
+
     &__item {
         margin-right: 55px;
     }
@@ -21,6 +42,16 @@
         
         &:hover {
             color: #C83564;
+        }
+    }
+    &__btn {
+        position: relative;
+        z-index: 100;
+        width: 25px;
+        padding: 0;
+        display: none;
+        @media (max-width: 1000px) {
+            display: block;
         }
     }
 }

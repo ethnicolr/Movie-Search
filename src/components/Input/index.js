@@ -1,18 +1,25 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import { debounce } from "lodash";
 import PropTypes from "prop-types";
 
 import { fetchSearch, clearSearch } from "./../../actions";
 import SearchList from "./../SearchList";
+import seach from "./../../style/search.svg";
 import "./style.scss";
 
-const Input = ({ hidden }) => {
+const Input = ({ hidden, hidingElem }) => {
+
   const [value, setValue] = useState("");
+  const [list, setList] = useState(false);
 
   const dispath = useDispatch();
-  let history = useHistory();
+  const history = useHistory();
+  const location = useLocation();
+  const wrapperRef = useRef(null);
+  const inputEl = useRef(null);
+  const searchList = useSelector(state => state.search.results);
 
   const handleChange = e => {
     let value = e.target.value;
@@ -36,37 +43,65 @@ const Input = ({ hidden }) => {
     []
   );
 
-  const searchList = useSelector(state => state.search.results);
-
   useEffect(() => {
-    !hidden ? inputEl.current.focus() : inputEl.current.blur();
+    hidden ? inputEl.current.focus() : inputEl.current.blur();
   }, [hidden]);
 
-  const inputEl = useRef(null);
+  
+  useEffect(() => {
+    setList(true);
+  }, [location.key]);
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  });
 
   const handleSubmit = e => {
     e.preventDefault();
     if (value.length) {
-      history.push({ pathname: "/search", search: value });
+      history.push({
+        pathname: "/search",
+        search: value
+      });
       document.body.style.overflow = "auto";
+    }
+  };
+
+  const handleClickOutside = e => {
+    if (wrapperRef.current && !wrapperRef.current.contains(e.target)) {
+      setList(true);
+    } else {
+      setList(false);
     }
   };
 
   return (
     <>
-      <div className={hidden ? "search--hidden" : "search"}>
-        <div className="search__container">
+      <div className="search" ref={wrapperRef}>
+        <div
+          className={
+            hidden
+              ? "search__container search__container--hidden"
+              : "search__container"
+          }
+        >
           <form onSubmit={handleSubmit}>
             <input
               ref={inputEl}
               className="search__input"
               type="text"
               onChange={handleChange}
-            />
-          </form>
-          <SearchList list={searchList} />
-        </div>
-      </div>
+            />{" "}
+          </form>{" "}
+          <SearchList list={searchList} hidden={list} />{" "}
+        </div>{" "}
+        <button className="search__btn" onClick={() => hidingElem("search")}>
+          <img src={seach} alt="seach" />
+        </button>{" "}
+      </div>{" "}
     </>
   );
 };

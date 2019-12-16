@@ -1,18 +1,25 @@
 .header {
     padding: 30px 4vw;
-    
+
     background-color: #000;
 
     &__container {
-        display: flex;
-        justify-content: space-between;
-        // grid-template-columns: repeat(9, 1fr);
-        // grid-template-areas:
-        //     ". lg . in in in in in ."
-        //     "nv nv nv nv nv nv nv nv nv";
+        // display: flex;
+        // justify-content: space-between;
+        display: grid;
+        grid-template-columns: repeat(9, 1fr);
+        grid-template-areas:
+            ". lg . in in in in in ."
+            "nv nv nv nv nv nv nv nv nv";
         width: 87%;
         margin: 0 auto;
         align-items: center;
+
+        @media (max-width: 1000px) {
+            grid-template-columns: repeat(9, 1fr);
+            grid-template-areas:
+                "in . . lg lg lg . . nv";
+        }
 
     }
 
@@ -20,6 +27,7 @@
         grid-area: lg;
         display: flex;
         align-items: center;
+
         h1 {
             font-size: 28px;
             font-weight: 600;
@@ -30,6 +38,7 @@
         width: 30px;
         margin-right: 10px;
     }
+
     &__btns {
         position: relative;
         z-index: 100;
@@ -38,13 +47,20 @@
     &__btn {
         width: 20px;
         height: 20px;
+        display: none;
+
         &--search {
             background: url("./../../style/search.svg");
             background-size: cover;
         }
+
         &--close {
             background: url("./../../style/close.svg");
             background-size: cover;
+        }
+
+        @media (max-width: 1000px) {
+            display: block;
         }
     }
 }
