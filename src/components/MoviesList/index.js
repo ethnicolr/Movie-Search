@@ -14,7 +14,6 @@ const MoviesList = ({ movies, favorite, grid }) => {
             return (
               <li className="list-movies__item" key={movie.id}>
                 <Movie
-                  link={`/movie/${movie.id}`}
                   movieData={movie}
                   isFav={!isFav}
                 />

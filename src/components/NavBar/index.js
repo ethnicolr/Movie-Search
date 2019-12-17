@@ -30,6 +30,11 @@ const NavBar = ({hidden, hidingElem}) => {
           </NavLink>
         </li>
         <li className="nav__item">
+          <NavLink activeClassName="nav__selected" to="/tv/popular">
+            TV
+          </NavLink>
+        </li>
+        <li className="nav__item">
           <NavLink activeClassName="nav__selected" to="/filter">
             Filter
           </NavLink>

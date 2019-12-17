@@ -1,7 +1,7 @@
 .header {
-    padding: 30px 4vw;
+    padding-top: 30px;
 
-    background-color: #000;
+    background-color: #211D26;
 
     &__container {
         // display: flex;
@@ -11,7 +11,8 @@
         grid-template-areas:
             ". lg . in in in in in ."
             "nv nv nv nv nv nv nv nv nv";
-        width: 87%;
+            grid-row-gap: 25px;
+        width: 78%;
         margin: 0 auto;
         align-items: center;
 
@@ -31,6 +32,7 @@
         h1 {
             font-size: 28px;
             font-weight: 600;
+            word-break: keep-all;
         }
     }
 

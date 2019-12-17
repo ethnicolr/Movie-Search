@@ -59,6 +59,7 @@ const callApi = url =>
 
 
 export const fetchMovies = options => async dispatch => {
+  console.log(options)
   const url = getUrl[options.path](options);
   const data = await callApi(url);
   dispatch(receiveMovies(data))

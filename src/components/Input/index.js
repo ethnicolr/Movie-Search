@@ -94,14 +94,16 @@ const Input = ({ hidden, hidingElem }) => {
               className="search__input"
               type="text"
               onChange={handleChange}
-            />{" "}
-          </form>{" "}
-          <SearchList list={searchList} hidden={list} />{" "}
-        </div>{" "}
-        <button className="search__btn" onClick={() => hidingElem("search")}>
+              placeholder="Seacrh movie..."
+            />
+            <button className="search__btn"><img src={seach} alt="seach" /></button>
+          </form>
+          <SearchList list={searchList} hidden={list} />
+        </div>
+        <button className="search__btn search__btn--hidden" onClick={() => hidingElem("search")}>
           <img src={seach} alt="seach" />
-        </button>{" "}
-      </div>{" "}
+        </button>
+      </div>
     </>
   );
 };

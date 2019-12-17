@@ -5,27 +5,29 @@ import PropTypes from "prop-types";
 import './style.scss'
 
 const SearchList = ({ list, select, hidden }) => {
+  
   return (
-    <div className={hidden  ? "serach-list search-list--hidden " : "search-list"}>
+    <div className={hidden ? "serach-list search-list--hidden " : "search-list"}>
       <ul className="search-list__items">
         {list.map((movie, index) => {
           const active = select === index ? "search-list__item--active" : "";
+          const { title, name, release_date, first_air_date, poster_path, id, vote_average } = movie;
           return (
-            <li className={`search-list__item ${active}`} key={movie.id}>
-              <Link to={`/movie/${movie.id}`} className="search-list__link">
+            <li className={`search-list__item ${active}`} key={id}>
+              <Link to={`/${id}`} className="search-list__link">
                 <img
-                  src={`https://image.tmdb.org/t/p/w300/${movie.poster_path}`}
+                  src={`https://image.tmdb.org/t/p/w300/${poster_path}`}
                   alt="poster"
                   sizes={"40px"}
                 />
                 <h2 className="search-list__title">
-                  {movie.title}
-                  <span>{`(${movie.release_date.split(/\D/)[0]})`}</span>
+                  {title || name}{` `}
+                  <span className="_text">{release_date || first_air_date ? (release_date || first_air_date).split(/-/)[0] : null}</span>
                 </h2>
                 <span className="search-preview__vote">
-                  {movie.vote_average.toFixed(1)}
+                  {vote_average.toFixed(1)}
                 </span>
-              </Link>
+              </Link> 
             </li>
           );
         })}

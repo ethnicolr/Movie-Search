@@ -20,7 +20,6 @@
   }
 
   &__container {
-    width: 80%;
     text-align: center;
 
     // margin: 100px auto;
@@ -33,6 +32,7 @@
       top: 0;
       left: 0;
       background-color: #000;
+
       &--hidden {
         display: block;
       }
@@ -43,8 +43,8 @@
     box-sizing: border-box;
     outline: none;
     border: 0;
-    padding: 5px;
-    padding-left: 30px;
+    padding: 10px;
+    padding-left: 40px;
     width: 100%;
     color: #fff;
     font-family: inherit;
@@ -62,10 +62,16 @@
   }
 
   &__btn {
-    width: 50px;
-    display: none;
-    position: relative;
+    width: 35px;
+    // display: none;
+    position: absolute;
+    right: 5px;
+    top: 10px;
     z-index: 100;
+
+    &--hidden {
+      display: none;
+    }
 
     @media (max-width: 1000px) {
       display: block;

@@ -3,7 +3,7 @@ const API_HOSTNAME = "//api.themoviedb.org/3/";
 
 export const getUrl = {
   "/search": options =>
-    `${API_HOSTNAME}search/movie?&${API_KEY}&query=${options.search}&page=${options.page}`,
+    `${API_HOSTNAME}search/multi?&${API_KEY}&query=${options.search}&page=${options.page}`,
   "/top_rated": options =>
     `${API_HOSTNAME}movie/top_rated?&${API_KEY}&page=${options.page}`,
   "/upcoming": options =>
@@ -22,4 +22,5 @@ export const getUrl = {
     `https://api.themoviedb.org/3/movie/${movieId}/credits?&${API_KEY}&language=en-US`,
     "/similar": options =>
     `https://api.themoviedb.org/3/movie/${options.search}/similar?&${API_KEY}&language=en-USpage=${options.page}`,
+    "/tv/popular": options => `${API_HOSTNAME}tv/popular?&${API_KEY}&page=${options.page}`,
 };

@@ -1,20 +1,20 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchMovies } from "./../../actions";
-import MoviesList from "./../MoviesList";
-import Pagination from "./../Pagination";
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom'
+import { fetchMovies } from './../../actions';
+import MoviesList from './../MoviesList';
+import Pagination from './../Pagination';
 
 const LoadMovies = props => {
-  const { pathname, search, grid } = props.location;
 
+  let location = useLocation();
+  const { pathname, search } = location;
   const [page, setPage] = useState(0);
-
   const dispatch = useDispatch();
-
   const genres = useSelector(state => state.filter.activeGenres);
   const sortBy = useSelector(state => state.filter.sortBy);
   let pages = useSelector(state => state.moviesList.pages);
-
+  
   useEffect(() => {
     if (pathname !== "/favorite") {
       dispatch(
@@ -52,7 +52,7 @@ const LoadMovies = props => {
 
   return (
     <>
-      <MoviesList movies={movies} favorite={favorite} grid={grid}/>
+      <MoviesList movies={movies} favorite={favorite}/>
       <Pagination
         forcePage={page}
         onPageChange={onPageChange}
