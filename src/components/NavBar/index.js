@@ -1,7 +1,7 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { NavLink } from "react-router-dom";
 import menu from './../../style/menu.svg'
+import cancel from './../../style/cancel.svg'
 import "./style.scss";
 
 const NavBar = ({hidden, hidingElem}) => {
@@ -30,21 +30,15 @@ const NavBar = ({hidden, hidingElem}) => {
           </NavLink>
         </li>
         <li className="nav__item">
-          <NavLink activeClassName="nav__selected" to="/tv/popular">
-            TV
-          </NavLink>
-        </li>
-        <li className="nav__item">
           <NavLink activeClassName="nav__selected" to="/filter">
             Filter
           </NavLink>
         </li>
       </ul>
-      <div className="nav__toggle"><button className="nav__btn" onClick={() => hidingElem("nav")}><img src={menu} alt="menu"/></button>></div>
+      <div className="nav__toggle"><button className="nav__btn" onClick={() => hidingElem("nav")}><img src={hidden ? menu : cancel} alt="menu"/></button></div>
     </nav>
   );
 };
 
-NavBar.propTypes = {};
 
 export default NavBar;

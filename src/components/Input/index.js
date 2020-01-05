@@ -2,11 +2,10 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 import { debounce } from "lodash";
-import PropTypes from "prop-types";
-
 import { fetchSearch, clearSearch } from "./../../actions";
 import SearchList from "./../SearchList";
 import seach from "./../../style/search.svg";
+import cancel from './../../style/cancel.svg'
 import "./style.scss";
 
 const Input = ({ hidden, hidingElem }) => {
@@ -100,14 +99,14 @@ const Input = ({ hidden, hidingElem }) => {
           </form>
           <SearchList list={searchList} hidden={list} />
         </div>
-        <button className="search__btn search__btn--hidden" onClick={() => hidingElem("search")}>
-          <img src={seach} alt="seach" />
+
+        <button className="search__toggle search__toggle--hidden" onClick={() => hidingElem("search")}>
+          <img src={hidden ? seach : cancel} alt="seach" />
         </button>
       </div>
     </>
   );
 };
 
-Input.propTypes = {};
 
 export default Input;

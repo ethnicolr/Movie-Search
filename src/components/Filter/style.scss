@@ -1,24 +1,30 @@
 .filter {
     position: relative;
-    width: 85%;
+    width: 75%;
     margin: 0 auto;
     padding: 25px;
     display: grid;
-    grid-template-areas: "sr sr sr sr gl" "ml ml ml ml gl";
+    grid-template-areas: "sr sr sr sr gl""ml ml ml ml gl";
     grid-gap: 25px;
-    
 
-    
-    
-    
+    @media (max-width: 768px) {
+        width: 90%;
+        grid-template-areas: " gl"
+            "sr"
+            "ml";
+    }
+
     &__container {
         display: block;
+
         &--sr {
             grid-area: sr;
         }
+
         &--gl {
             grid-area: gl;
         }
+
         &--ml {
             grid-area: ml;
         }

@@ -1,28 +1,18 @@
 .list-movies {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    grid-gap: 35px;
     width: 80%;
-    padding: 25px;
-    margin: 0 auto;
-    background-color: #f2f2f2;
-    border-radius: 10px;
+    flex-wrap: wrap;
+    display: flex;
+    justify-content: center;
+    margin: 50px auto;
 
-    @media (max-width: 1000px) {
-        grid-template-columns: repeat(4, 1fr);
+    &--medium {
+        width: 100%;
     }
-
-    @media (max-width: 768px) {
-        grid-template-columns: repeat(3, 1fr);
-    }
-
-    @media (max-width: 450px) {
-        grid-template-columns: 1fr;
-    }
-    
 
     &__item {
-        
+        width: 210px;
+        margin-right: 35px;
+        margin-bottom: 45px;
     }
 
     &--small {

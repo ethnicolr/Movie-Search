@@ -1,6 +1,33 @@
 .genres {
-    &__item {
+    padding-left: 15px;
+    @media (max-width: 768px) {
+        text-align: center;
+    }
+    &__title {
+        font-size: 20px;
+        font-weight: 600;
+    }
 
+    &__list {
+        @media (max-width: 768px) {
+            border: 1px solid black;
+            padding: 1px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            text-align: center;
+        }
+        &::after {
+            display: block;
+            content: "";
+            clear: both;
+          }
+    }
+    &__item {
+        @media (max-width: 768px) {
+        min-width: 150px;
+        margin-right: 15px;
+        }
     }
     &__label {
         display: block;
@@ -27,6 +54,7 @@
 
         &:hover {
             background-color: #211D26;
+            color: #eee;
         }
 
         .genres__checkmark:after {

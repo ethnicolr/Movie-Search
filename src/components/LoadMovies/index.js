@@ -5,18 +5,25 @@ import { fetchMovies } from './../../actions';
 import MoviesList from './../MoviesList';
 import Pagination from './../Pagination';
 
-const LoadMovies = props => {
+const LoadMovies = ({movieId, size}) => {
 
-  let location = useLocation();
-  const { pathname, search } = location;
   const [page, setPage] = useState(0);
+  let location = useLocation();
   const dispatch = useDispatch();
   const genres = useSelector(state => state.filter.activeGenres);
   const sortBy = useSelector(state => state.filter.sortBy);
   let pages = useSelector(state => state.moviesList.pages);
+  const { pathname, search } = location;
   
   useEffect(() => {
-    if (pathname !== "/favorite") {
+    if (movieId){
+      dispatch(
+        fetchMovies({
+          path: "/similar",
+          search: movieId
+        })
+      );
+    } else if (pathname !== "/favorite") {
       dispatch(
         fetchMovies({
           path: pathname,
@@ -27,7 +34,7 @@ const LoadMovies = props => {
       );
       setPage(0);
     }
-  }, [pathname, genres, dispatch, sortBy, search]);
+  }, [pathname, genres, dispatch, sortBy, search, movieId]);
 
   const onPageChange = data => {
     setPage(data.selected);
@@ -48,11 +55,13 @@ const LoadMovies = props => {
   if (pathname === "/favorite") {
     movies = favorite;
     pages = 0
+  } else if (movieId) {
+    pages = 0;
   }
 
   return (
     <>
-      <MoviesList movies={movies} favorite={favorite}/>
+      <MoviesList movies={movies} favorite={favorite} size={size}/>
       <Pagination
         forcePage={page}
         onPageChange={onPageChange}

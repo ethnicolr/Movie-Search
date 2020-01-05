@@ -9,17 +9,30 @@
     font-weight: 600;
     box-shadow: 2px 0px 5px 2px rgba(0, 0, 0, 0.75);
     border-radius: 0 0 5px 5px;
+    
+    &__container {
+        display: flex;
+        justify-content: space-between;
+        padding: 5px 0;
+        &--underline {
+            border-bottom: 1px solid rgb(80, 80, 80);
+        }
+
+    }
 
     &__title {
-        font-weight: 400;
-        font-size: 17px;
-    }
-    &__img {
-        width: 100%;
-    }
-    &__desc {
-        padding: 0 12px;
         
+        font-weight: 600;
+        font-size: 18px;
+        min-height: 50px;
+    }
+
+    &__img {
+        height: 315px;
+    }
+
+    &__desc {
+        padding: 10px 12px 0 12px;
     }
 
     &__thumb {
@@ -27,10 +40,6 @@
         margin-left: 5px;
     }
     
-    &__container {
-        display: flex;
-        justify-content: space-between;
-    }
 
     &__button {
         position: absolute;

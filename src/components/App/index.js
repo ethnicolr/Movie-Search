@@ -5,7 +5,7 @@ import LoadMovies from "./../LoadMovies";
 import LoadDetails from "./../LoadDetails";
 import Filter from "./../Filter";
 
-export default class index extends Component {
+export default class App extends Component {
   render() {
     return (
       <div>
@@ -26,14 +26,14 @@ export default class index extends Component {
           <Route exact path="/favorite">
             <LoadMovies />
           </Route>
-          <Route exact path="/tv/popular">
-            <LoadMovies />
-          </Route>
           <Route exact path="/filter">
             <Filter />
           </Route>
           <Route exact path={`/movie/:movieId`}>
-            <LoadDetails />
+            <LoadDetails media_type={"movie"} />
+          </Route>
+          <Route exact path={`/tv/:movieId`}>
+            <LoadDetails media_type={"tv"} />
           </Route>
         </Switch>
       </div>

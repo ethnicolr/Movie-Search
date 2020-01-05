@@ -1,7 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { sortBy } from "./../../actions";
-import PropTypes from "prop-types";
 
 import "./style.scss";
 
@@ -62,6 +61,5 @@ const Sorting = props => {
   );
 };
 
-Sorting.propTypes = {};
 
 export default Sorting;

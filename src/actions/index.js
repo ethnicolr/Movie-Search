@@ -59,7 +59,7 @@ const callApi = url =>
 
 
 export const fetchMovies = options => async dispatch => {
-  console.log(options)
+  console.log(options);
   const url = getUrl[options.path](options);
   const data = await callApi(url);
   dispatch(receiveMovies(data))
@@ -71,8 +71,8 @@ export const fetchSearch = options => async dispatch => {
   dispatch(receiveSearch(data));
 }
 
-export const fetchDetails = movieId => async dispatch => {
-  const movie = await callApi(getUrl["/movie"](movieId));
+export const fetchDetails = (movieId, media_type) => async dispatch => {
+  const movie = await callApi(getUrl[`/${media_type}`](movieId));
   const credits = await callApi(getUrl["/credits"](movieId));
   dispatch(receiveDetails(movie));
   dispatch(receiveCredits(credits));

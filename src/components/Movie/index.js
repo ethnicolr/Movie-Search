@@ -1,12 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import PropTypes from "prop-types";
-import { addFavorite, removeFavorite } from "./../../actions";
-import "./style.scss";
+import { addFavorite } from "./../../actions";
+import Image from "./../Image";
 import add from './../../style/add.svg'
 import remove from './../../style/remove.svg'
 import star from './../../style/star.svg'
+import "./style.scss";
 
 const Movie = ({movieData, isFav }) => {
   const { title, vote_average, poster_path, release_date, first_air_date, name, media_type, id } = movieData;
@@ -14,31 +14,27 @@ const Movie = ({movieData, isFav }) => {
   const dispatch = useDispatch();
 
   const handleFavorite = () => {
-    isFav
-      ? dispatch(removeFavorite(movieData.id))
-      : dispatch(addFavorite(movieData));
+    dispatch(addFavorite(movieData));
   };
   const mode = isFav ? {backgroundImage: `url(${add})`} : {backgroundImage: `url(${remove})`};
   
-  // link={`/movie/${movie.id}`}
-  console.log(media_type);
+  let link = media_type ? media_type : "movie";
   return (
     <div className="movie">
       <div className="movie__img">
-        <Link to={`/movie/${id}`}>
-          <img
+        <Link to={`/${link}/${id}`}>
+          <Image
             src={`https://image.tmdb.org/t/p/w300/${poster_path}`}
-            alt="poster"
+            size="100%"
           />
         </Link>
       </div>
       <div className="movie__desc">
       <Link to={`/${media_type}/${id}`} className="movie__link">
-        {/* <h3 className="movie__title">{title && name}</h3> */}
 
         <h3 className="movie__title">{title || name}</h3>
       </Link>
-      <div className="movie__container">
+      <div className="movie__container movie__container--underline">
         <span className="movie__text">Age: </span>
         <span className="movie__text">{release_date || first_air_date ? (release_date || first_air_date).split(/-/)[0] : null}</span>
       </div>
@@ -60,6 +56,5 @@ const Movie = ({movieData, isFav }) => {
   );
 };
 
-Movie.propTypes = {};
 
 export default Movie;

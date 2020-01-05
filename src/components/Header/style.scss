@@ -1,11 +1,12 @@
 .header {
-    padding-top: 30px;
 
-    background-color: #211D26;
-
+    background-color: #000;
+    height: 170px;
+    padding-top: 10px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #222;
     &__container {
-        // display: flex;
-        // justify-content: space-between;
         display: grid;
         grid-template-columns: repeat(9, 1fr);
         grid-template-areas:
@@ -17,9 +18,18 @@
         align-items: center;
 
         @media (max-width: 1000px) {
+            width: auto;
             grid-template-columns: repeat(9, 1fr);
             grid-template-areas:
                 "in . . lg lg lg . . nv";
+        }
+        @media (max-width: 768px) {
+            grid-template-columns: repeat(7, 1fr);
+            grid-template-areas:
+                "in .  lg lg lg . nv";
+        }
+        @media (max-width: 550px) {
+            width: 100%;
         }
 
     }
@@ -27,10 +37,13 @@
     &__logo {
         grid-area: lg;
         display: flex;
+        justify-self: center;
         align-items: center;
+        position: relative;
+        z-index: 50;
 
         h1 {
-            font-size: 28px;
+            font-size: 35px;
             font-weight: 600;
             word-break: keep-all;
         }

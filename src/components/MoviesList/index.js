@@ -1,13 +1,12 @@
 import React from "react";
-import PropTypes from "prop-types";
-
 import Movie from "./../Movie";
 
 import "./style.scss";
 
-const MoviesList = ({ movies, favorite, grid }) => {
+const MoviesList = ({ movies, favorite, size }) => {
+  let grid = size ? `list-movies list-movies--${size}` : "list-movies"
   return (
-    <ul className={`list-movies ${grid}`}>
+    <ul className={grid}>
       {movies.length
         ? movies.map(movie => {
             const isFav = favorite.every(fav => fav.id !== movie.id);
@@ -25,6 +24,5 @@ const MoviesList = ({ movies, favorite, grid }) => {
   );
 };
 
-MoviesList.propTypes = {};
 
 export default MoviesList;

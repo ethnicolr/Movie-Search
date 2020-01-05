@@ -1,8 +1,9 @@
 .sort {
-    border: 2px solid #211D26;
+    text-align: right;
     &__items {
         display: flex;
-        justify-content: space-between;
+        justify-content: flex-end;
+        flex-wrap: wrap;
         grid-area: st;
     }
 
@@ -12,8 +13,8 @@
     }
 
     &__title {
-        font-size: 15px;
-        color: #fff;
+        font-size: 17px;
+        font-weight: 600;
     }
 
     &__movies {
@@ -29,11 +30,8 @@
     padding: 10px 35px;
     border: none;
     font-size: 15px;
-    border-right: 1px solid #e8e8e8;
 
-    @media (max-width: 500px) {
-        padding: 10px 12px;
-    }
+    
 
     &--desc:after {
         content: "";

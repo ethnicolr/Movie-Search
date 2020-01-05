@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import './style.scss';
 
 const CastList = ({ cast }) => {
@@ -20,7 +19,5 @@ const CastList = ({ cast }) => {
     </ul>
   );
 };
-
-CastList.propTypes = {};
 
 export default CastList;

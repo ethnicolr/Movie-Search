@@ -1,30 +1,19 @@
 .search {
-  // height: 100%;
-  // width: 100%;
-  // display: block;
-  // position: fixed;
-  // z-index: 15;
-  // top: 0;
-  // left: 0;
-  // background-color: #000;
   grid-area: in;
-  //  overflow-y: scroll;
   position: relative;
   height: 50px;
   z-index: 20;
   grid-area: in;
-
-
-  &--hidden {
-    // display: none;
+  @media (max-width: 1000px) {
+    height: auto;
+    justify-self: center;
   }
 
   &__container {
     text-align: center;
 
-    // margin: 100px auto;
     @media (max-width: 1000px) {
-      display: none;
+      display: block;
       height: 100%;
       width: 100%;
       position: fixed;
@@ -34,7 +23,7 @@
       background-color: #000;
 
       &--hidden {
-        display: block;
+        display: none;
       }
     }
   }
@@ -60,19 +49,28 @@
     }
 
   }
+ 
 
   &__btn {
     width: 35px;
-    // display: none;
     position: absolute;
     right: 5px;
     top: 10px;
     z-index: 100;
+    
+    @media (max-width: 1000px) {
+      top: 155px;
+      right: 12vw;
+    }
+  }
 
+  &__toggle {
+    width: 37px;
+    position: relative;
+    z-index: 100;
     &--hidden {
       display: none;
     }
-
     @media (max-width: 1000px) {
       display: block;
     }

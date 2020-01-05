@@ -1,30 +1,29 @@
 import React, {useState, useEffect} from "react";
 import { Link, useLocation } from "react-router-dom";
-import PropTypes from "prop-types";
 import NavBar from "./../NavBar";
 import Input from "./../Input";
 import logo from "./../../style/react-logo.png";
 import "./style.scss";
 
 const Header = props => {
-  const [search, setSearch ] = useState(false);
-  const [nav, setNav ] = useState(false);
+  const [search, setSearch ] = useState(true);
+  const [nav, setNav ] = useState(true);
 
   let location = useLocation();
 
   const hidingElem = (elem) => {
     if (elem === "nav"){
       setNav(search => !search);
-      setSearch(false);
+      setSearch(true);
     } else {
       setSearch(setSearch => !setSearch);
-      setNav(false);
+      setNav(true);
     }
   }
 
   useEffect(() => {
-    setSearch(false);
-    setNav(false)
+    setSearch(true);
+    setNav(true)
   }, [location.key])
 
   return (
@@ -41,6 +40,5 @@ const Header = props => {
   );
 };
 
-Header.propTypes = {};
 
 export default Header;
