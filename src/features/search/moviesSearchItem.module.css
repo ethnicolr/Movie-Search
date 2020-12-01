@@ -1,0 +1,31 @@
+.item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-right: 20px;
+    color: rgb(253, 230, 230);
+}
+
+.title {
+    width: 30%;
+    text-align: left;
+    font-size: 17px;
+}
+
+.vote {
+    font-size: 15px;
+}
+
+/* 
+.subtitle {
+    color: #8a0000;
+    border: 1px solid #575757;
+    border-top: none;
+    padding: 5px;
+    padding-left: 36px;
+} */
+
+.thumb {
+    width: 10px;
+    margin-left: 5px;
+}

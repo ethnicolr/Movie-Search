@@ -1,14 +1,16 @@
-import React from "react";
-import "./style.scss";
+import React from 'react'
+import style from './spiner.module.css'
 
 export const Spinner = () => {
   return (
-    <div className="loading-indicator">
-      <div className="circle circle--1" />
-      <div className="circle circle--2" />
-      <div className="circle circle--3" />
+    <div className={style.container}>
+      <div className={style.threeDots}>
+        <span className={style.dot}></span>
+        <span className={style.dot}></span>
+        <span className={style.dot}></span>
+      </div>
     </div>
-  );
-};
+  )
+}
 
-export default Spinner;
+export default Spinner

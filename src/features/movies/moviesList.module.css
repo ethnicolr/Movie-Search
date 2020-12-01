@@ -1,0 +1,41 @@
+.moviesList {
+    position: relative;
+    flex-wrap: wrap;
+    display: flex;
+    justify-content: center;
+
+}
+
+.moviesListSmall {
+    grid-template-columns: repeat(8, 1fr);
+    grid-gap: 30px;
+    width: 100%;
+}
+
+.item {
+    width: 210px;
+    max-height: 480px;
+    margin-right: 35px;
+    margin-bottom: 45px;
+}
+
+@media (max-width: 400px) {
+    .item {
+        margin-right: 0;
+    }
+}
+
+.scroll {
+    top: 750px;
+    display: block;
+    position: fixed;
+    width: 40px;
+    height: 23px;
+    background: black;
+    right: 170px;
+    cursor: pointer;
+    color: #fff;
+    padding: 1px 5px;
+    border-radius: 5px;
+    text-align: center;
+}

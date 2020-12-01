@@ -1,51 +1,57 @@
-import React, { useState, useEffect, useRef } from "react";
-import { NavLink, useLocation } from "react-router-dom";
-import github from "./../style/github.svg";
-import "./style.scss";
+import React, { useEffect, useRef } from 'react'
+import { NavLink, useLocation } from 'react-router-dom'
+import github from './../style/github.svg'
+import style from './navbar.module.css'
 
-const Navbar: React.FC = () => {
-  const wrapperRef = useRef<HTMLElement>(null!);
-  const location = useLocation();
-  const [isHidden, setHidden] = React.useState<boolean>(true);
+export const Navbar = () => {
+  
+  const wrapperRef = useRef<HTMLElement | null>(null)
+  const location = useLocation()
+  const [isHidden, setHidden] = React.useState<boolean>(true)
 
-  function handleClickOutside(e: MouseEvent): void {
-    if (wrapperRef.current && !wrapperRef.current.contains(e.target as Node)) {
-      setHidden(true);
-      document.body.classList.remove("overlay");
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent): void {
+      if (
+        wrapperRef.current &&
+        !wrapperRef.current.contains(e.target as Node)
+      ) {
+        document.body.classList.remove('overlay')
+        setHidden(true)
+      }
     }
-  }
 
-  useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside)
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [])
 
   useEffect(() => {
-    setHidden(true);
-    document.body.classList.remove("overlay");
-  }, [location.key]);
+    setHidden(true)
+    document.body.classList.remove('overlay')
+  }, [location.key])
 
   const handleClickBtn = () => {
     if (isHidden) {
-      setHidden(false);
-      document.body.classList.toggle("overlay");
+      setHidden(false)
+      document.body.classList.toggle('overlay')
     } else {
-      setHidden(true);
-      document.body.classList.toggle("overlay");
+      setHidden(true)
+      document.body.classList.toggle('overlay')
     }
-  };
+  }
   return (
-    <nav className="nav" ref={wrapperRef}>
-      <div className="nav__container">
+    <nav className={style.nav} ref={wrapperRef}>
+      <div className={style.container}>
         <div
           className={
-            isHidden ? "nav__toggle" : "nav__toggle nav__toggle--hidden"
+            isHidden
+              ? `${style.toggle}`
+              : `${style.toggle} ${style.toggleHidden}`
           }
         >
           <button
-            className="nav__btn"
+            className={style.btn}
             onClick={() => handleClickBtn()}
           ></button>
           <span></span>
@@ -53,68 +59,73 @@ const Navbar: React.FC = () => {
           <span></span>
         </div>
         <ul
-          className={isHidden ? "nav__items" : "nav__items nav__items--hidden"}
+          className={
+            isHidden ? `${style.items}` : `${style.items} ${style.itemsHidden}`
+          }
         >
-          <li className="nav__item">
+          <li className={style.item}>
             <NavLink
-              className="nav__link"
+              className={style.link}
               exact
-              activeClassName="nav__selected"
-              to="/"
+              activeClassName={style.selected}
+              to='/'
             >
               Popular
             </NavLink>
           </li>
-          <li className="nav__item">
+          <li className={style.item}>
             <NavLink
-              className="nav__link"
-              activeClassName="nav__selected"
-              to="/upcoming"
+              className={style.link}
+              activeClassName={style.selected}
+              to='/upcoming'
             >
               Up comning
             </NavLink>
           </li>
-          <li className="nav__item">
+          <li className={style.item}>
             <NavLink
-              className="nav__link"
-              activeClassName="nav__selected"
-              to="/top_rated"
+              className={style.link}
+              activeClassName={style.selected}
+              to='/top_rated'
             >
               Top rated
             </NavLink>
           </li>
-          <li className="nav__item">
+          <li className={style.item}>
             <NavLink
-              className="nav__link"
-              activeClassName="nav__selected"
-              to="/favorite"
+              className={style.link}
+              activeClassName={style.selected}
+              to='/favorite'
             >
               Favorite
             </NavLink>
           </li>
-          <li className="nav__item">
+          <li className={style.item}>
             <NavLink
-              className="nav__link"
-              activeClassName="nav__selected"
-              to="/filter"
+              className={style.link}
+              activeClassName={style.selected}
+              to='/filter'
             >
               Filter
             </NavLink>
           </li>
-          <li className="nav__item">
+          <li className={style.item}>
             <a
-              className="nav__link"
-              href="https://github.com/ethnicolr/Movie-Search"
-              target="_blank"
-              rel="noopener noreferrer"
+              className={style.link}
+              href='https://github.com/ethnicolr/Movie-Search'
+              target='_blank'
+              rel='noopener noreferrer'
             >
-              <img src={github} alt="github" className="nav__icon" />
+              <img
+                src={github}
+                alt='github'
+                className={style.icon}
+                width='40'
+              />
             </a>
           </li>
         </ul>
       </div>
     </nav>
-  );
-};
-
-export default Navbar
+  )
+}

@@ -1,7 +1,13 @@
 import React, { useState, useEffect } from "react";
 import error from "./../style/error.png";
 
-const Image = ({ src, size }) => {
+
+interface Props {
+  src: string
+  size?: string
+}
+
+export const Image = ({ src, size = "100%" }: Props) => {
   const [fallback, setFallback] = useState(src);
   const [errored, setError] = useState(false);
 
@@ -27,4 +33,3 @@ const Image = ({ src, size }) => {
   );
 };
 
-export default Image;

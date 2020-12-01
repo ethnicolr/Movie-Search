@@ -1,0 +1,53 @@
+.container {
+    text-align: center;
+  }
+  
+  .threeDots{
+    padding: 5px;
+  }
+  
+   .dot{
+    width: 20px;
+    height: 20px;
+    background-color: transparent;
+    position: relative;
+    display: inline-block;
+  }
+  
+  .dot::after{
+    transform: scale(0.2);
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    content: "";
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: #000000;
+    display: inline-block;
+    animation-name: scale;
+    animation-duration: 900ms;
+    animation-iteration-count: infinite;
+  }
+  
+  .dot:nth-child(2)::after{
+    animation-delay:150ms;
+  }
+  
+  .dot:nth-child(3)::after{
+    animation-delay:300ms;
+  }
+  
+  @keyframes scale {
+    0% {
+      transform: scale(0.2);
+    }
+    50% {
+      transform: scale(1);
+    }
+    100% {
+      transform: scale(.2);
+    }
+  }
+  

@@ -1,57 +1,53 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useParams, useLocation } from "react-router-dom";
-import { addFavorite, deleteFavorite } from "./moviesSlice";
-import { getUrl } from "../../api/movieApi";
-import  MoviesList  from "./MoviesList";
-import Image from "../../Image";
-import vote from "./../../style/star.svg";
-import add from "./../../style/correct.svg";
-import remove from "./../../style/minus.svg";
-import { DetailsResult, Details, fetchDetails } from "../../api/movieApi";
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useParams } from 'react-router-dom'
+import { addFavorite, deleteFavorite } from './moviesSlice'
+import { MoviesListPage } from './moviesListPage'
+import { DetailsResult, fetchDetails, MovieType } from '../../api/movieApi'
+import {Image} from '../../app/image'
+import vote from './../../style/star.svg'
+import add from './../../style/correct.svg'
+import remove from './../../style/minus.svg'
 
-type DetailsProps = { media_type: keyof typeof getUrl };
+import { RootState } from '../../app/store'
 
-interface RootState {
-  movies: {
-    favorite: [];
-  };
-}
+import style from './movieDetails.module.css'
 
-interface Movie {
-  id: number;
+interface PropsParams {
+  movieId: string
+  media_type: string
 }
 
 export const MovieDetails = () => {
-  const [data, setData] = React.useState<DetailsResult | null>(null);
-  const [error, setError] = React.useState(null);
-  const { movieId, media_type } = useParams();
-  const dispatch = useDispatch();
-  const location = useLocation();
+  const [data, setData] = React.useState<DetailsResult | null>(null)
+  const [error, setError] = React.useState(null)
+  const { movieId, media_type } = useParams<PropsParams>()
+  const dispatch = useDispatch()
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        let data = await fetchDetails(movieId);
-        setData(data);
+        const data = await fetchDetails(movieId)
+        setData(data)
+        setError(null)
       } catch (err) {
-        setError(err);
+        setError(err)
       }
-    };
-    fetchData();
-  }, [media_type, movieId]);
+    }
+    fetchData()
+  }, [media_type, movieId])
 
-  const favorite = useSelector((state: RootState) => state.movies.favorite);
-  const isFav = favorite.some((favorite: Movie) => {
-    return favorite.id == movieId;
-  });
+  const favorite = useSelector((state: RootState) => state.movies.favorite)
+  const isFav = favorite.some((favorite: MovieType) => {
+    return favorite.id == movieId
+  })
 
   if (error) {
-    return <div>{error}</div>;
+    return <h2 className='movie-details__title'>{error}</h2>
   }
 
   if (!data) {
-    return null;
+    return null
   }
 
   const {
@@ -69,11 +65,11 @@ export const MovieDetails = () => {
     id,
     production_countries = [],
     budget = 0,
-  } = data.movieDetails;
+  } = data.movieDetails
 
   const handleFavorite = () => {
     if (isFav) {
-      dispatch(deleteFavorite(data.movieDetails.id));
+      dispatch(deleteFavorite(data.movieDetails.id))
     } else {
       dispatch(
         addFavorite({
@@ -86,102 +82,101 @@ export const MovieDetails = () => {
           first_air_date,
           media_type,
         })
-      );
+      )
     }
-  };
+  }
 
   const genresList = genres.length
     ? genres.map((movie) => ` ${movie.name.toLowerCase()}`).join()
-    : null;
+    : null
   const countries = production_countries.length
     ? production_countries.map((e) => ` ${e.name}`).join()
-    : null;
+    : null
   const castList = data.cast
     ? data.cast
         .slice(0, 10)
         .map((item) => ` ${item.name}`)
         .join()
-    : null;
+    : null
   const formatBudget = `$ ${budget
     .toString()
-    .replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
+    .replace(/\B(?=(\d{3})+(?!\d))/g, '.')}`
 
   return (
-    <div className="movie-details">
-      <div className="movie-details__container">
-        <div className="movie-details__left-column">
-          <Image
-            src={`https://image.tmdb.org/t/p/w500/${poster_path}`}
-            size={"100%"}
-          />
+    <div className={style.movieDetails}>
+      <div className={style.container}>
+        <div className={style.leftColumn}>
+          <Image src={`https://image.tmdb.org/t/p/w500/${poster_path}`} />
         </div>
-        <div className="movie-details__right-column">
-          <div className="movie-details__heading">
-            <h2 className="movie-details__title"> {title || name} </h2>
-            <span className="movie-details__vote">
+        <div className={style.rightColumn}>
+          <div className={style.heading}>
+            <h2 className={style.title}> {title || name} </h2>
+            <span className={style.vote}>
               {`${vote_average} `}
-              <img className="movie-details__thumb" src={vote} alt="vote" />
+              <img className={style.thumb} src={vote} alt='vote' />
             </span>
           </div>
 
           {release_date || first_air_date ? (
-            <div className="movie-details__info">
-              <h3 className="movie-details__tagline">Year</h3>
-              <p className="movie-details__text">
-                {(release_date || first_air_date).split("-")[0]}
+            <div className={style.info}>
+              <h3 className={style.tagline}>Year</h3>
+              <p className={style.text}>
+                {(release_date || first_air_date).split('-')[0]}
               </p>
             </div>
           ) : null}
 
           {countries ? (
-            <div className="movie-details__info">
-              <h3 className="movie-details__tagline">Country</h3>
-              <p className="movie-details__text">{countries}</p>
+            <div className={style.info}>
+              <h3 className={style.tagline}>Country</h3>
+              <p className={style.text}>{countries}</p>
             </div>
           ) : null}
 
-          <div className="movie-details__info">
-            <h3 className="movie-details__tagline">Genres</h3>
-            <p className="movie-details__text">{genresList}</p>
+          <div className={style.info}>
+            <h3 className={style.tagline}>Genres</h3>
+            <p className={style.text}>{genresList}</p>
           </div>
 
           {tagline ? (
-            <div className="movie-details__info">
-              <h3 className="movie-details__tagline">Tag</h3>
-              <p className="movie-details__text">{tagline}</p>
+            <div className={style.info}>
+              <h3 className={style.tagline}>Tag</h3>
+              <p className={style.text}>{tagline}</p>
             </div>
           ) : null}
 
-          <div className="movie-details__info">
-            <h3 className="movie-details__tagline">Cast</h3>
-            <p className="movie-details__text">{castList}</p>
+          <div className={style.info}>
+            <h3 className={style.tagline}>Cast</h3>
+            <p className={style.text}>{castList}</p>
           </div>
 
-          <div className="movie-details__info">
-            <h3 className="movie-details__tagline">Runtime</h3>
-            <p className="movie-details__text">
-              {episode_run_time || runtime} {" min"}
+          <div className={style.info}>
+            <h3 className={style.tagline}>Runtime</h3>
+            <p className={style.text}>
+              {episode_run_time || runtime} {' min'}
             </p>
           </div>
 
-          <div className="movie-details__info">
-            <h3 className="movie-details__tagline">Budget</h3>
-            <p className="movie-details__text">{formatBudget}</p>
+          <div className={style.info}>
+            <h3 className={style.tagline}>Budget</h3>
+            <p className={style.text}>{formatBudget}</p>
           </div>
 
-          <h2 className="movie-details__subtitle">Overview</h2>
-          <p className="movie-details__overview"> {overview} </p>
+          <h2 className={style.subtitle}>Overview</h2>
+          <p className={style.overview}> {overview} </p>
 
-          <button className="movie-details__btn" onClick={handleFavorite}>
-            <img src={isFav ? add : remove} alt="favorite" />
-            {isFav ? "Delete from Favorite" : "Add to Favorite"}
+          <button className={style.btn} onClick={handleFavorite}>
+            <img src={isFav ? add : remove} alt='favorite' />
+            {isFav ? 'Delete from Favorite' : 'Add to Favorite'}
           </button>
         </div>
       </div>
-      <div className="movie-details__recomend">
-        <h2 className="movie-details__headline">Recommendations</h2>
-        {movieId ? <MoviesList movieId={id} grid={"list-movies--small"} /> : null}
+      <div className={style.recommend}>
+        <h2 className={style.headline}>Recommendations</h2>
+        {movieId ? (
+          <MoviesListPage movieId={id} grid={'list-movies--small'} />
+        ) : null}
       </div>
     </div>
-  );
-};
+  )
+}

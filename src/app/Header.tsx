@@ -1,21 +1,20 @@
 import React from "react";
 import { Link  } from "react-router-dom";
-import  Navbar  from "./Navbar";
-import Search from "../features/movies/Search";
+import {MoviesSearchPage} from "../features/search/moviesSearchPage";
+import  {Navbar}  from "./Navbar";
 import logo from "./../style/react-logo.png";
-import "./style.scss";
 
+import style from './header.module.css'
 export const Header = () => {
 
   return (
-    <header className="header">
-      <div className="header__container">
-        <Link className="header__logo" to="/">
-          <img src={logo} className="header__img" alt="logo" />
-          <h1 className="header__title">Movies-Search</h1>
+    <header className={style.header}>
+      <div className={style.container}>
+        <Link className={style.logo} to="/">
+          <img src={logo} className={style.img} alt="logo" />
+          <h1 className={style.title}>Movies-Search</h1>
         </Link>
-
-        <Search />
+        <MoviesSearchPage />
         <Navbar />
       </div>
     </header>

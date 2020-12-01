@@ -1,104 +1,91 @@
 import axios from 'axios'
-export const API_KEY = "api_key=33691dc9097a0a10121b027c1856edd7";
-export const API_HOSTNAME = "//api.themoviedb.org/3/";
+export const API_KEY = 'api_key=33691dc9097a0a10121b027c1856edd7'
 
 export interface Details {
-  id: string;
-  title: string;
-  vote_average: number;
-  poster_path: string | null;
-  overview: string;
-  tagline: string;
-  release_date: string;
-  first_air_date: string;
-  genres: [{ name: string; id: string }];
-  runtime: number;
-  episode_run_time: number;
-  name: string;
-  production_countries: [{name: string}];
+  id: string
+  title: string
+  vote_average: number
+  poster_path: string | null
+  overview: string
+  tagline: string
+  release_date: string
+  first_air_date: string
+  genres: [{ name: string; id: string }]
+  runtime: number
+  episode_run_time: number
+  name: string
+  production_countries: [{ name: string }]
   media_type?: string
   budget: number
 }
 
 export interface MovieType {
-  id: string;
-  title: string;
-  vote_average: number;
-  poster_path: string | null;
-  release_date: string;
-  first_air_date: string;
-  name: string;
-  media_type: string;
-}
-
-interface OptionsUrl {
-  search?: string;
-  page?: string;
-  sortBy?: string;
-  genres?: string[];
-}
-
-export const fetchSeach = async (search: string, page: number) => {
-  const url = `//api.themoviedb.org/3/search/multi?&${API_KEY}&query=${search}&page=${page}`;
-  const searchResponse = await fetch(url);
-  const searchList = await searchResponse.json();
-  return searchList;
-};
-
-export interface Options {
-  search?: string;
-  page?: number;
-  genres?: string[];
-  sortBy?: string;
-  movieId?: string;
-}
-
-interface UrlOptions {
-  (options: Options): string
-}
-
-interface getUrlType {
-  [key: string] : UrlOptions | string
+  id: string
+  title: string
+  vote_average: number
+  poster_path: string | null
+  release_date: string
+  first_air_date: string
+  name: string
+  media_type: string
 }
 
 export interface MoviesResult {
   page: number
-  pageCount: number
+  totalPages: number
   moviesList: MovieType[]
 }
 
-export const genresUrl = `https://api.themoviedb.org/3/genre/movie/list?${API_KEY}&language=en-US`
+export interface Options {
+  search?: string
+  page?: number
+  genres?: string[]
+  sortBy?: string
+  movieId?: string
+}
+
+export interface Genre {
+  id: string
+  name: string
+  selected: boolean
+}
+
+
+interface GenresProps {
+  genres: Genre[]
+}
+
 
 export const getUrl = {
-  "/search": (options: Options): string =>
-    `${API_HOSTNAME}search/multi?&${API_KEY}&query=${options.search}&page=${options.page}`,
-  "/top_rated": (options: Options) =>
-    `${API_HOSTNAME}movie/top_rated?&${API_KEY}&page=${options.page}`,
-  "/upcoming": (options: Options) =>
-    `${API_HOSTNAME}movie/upcoming?&${API_KEY}&page=${options.page}`,
-  "/popular": (options: Options) =>
-    `${API_HOSTNAME}movie/popular?&${API_KEY}&page=${options.page}`,
-  "/": (options: Options) =>
-    `${API_HOSTNAME}movie/popular?&${API_KEY}&page=${options.page}`,
-  "/movie": (options: Options) =>
-    `${API_HOSTNAME}movie/${options.movieId}?&${API_KEY}&language=en-US`,
-  "/tv": (options: Options) =>
-    `${API_HOSTNAME}tv/${options.movieId}?&${API_KEY}&language=en-US`,
-    "/filter": (options: Options) =>
-    `${API_HOSTNAME}discover/movie?&${API_KEY}&language=en-US&sort_by=${options.sortBy}&include_adult=false&include_video=false&page=${options.page}&with_genres=${options.genres}`,
-    "/credits": (options: Options) =>
+  '/search': (options: Options): string =>
+    `https://api.themoviedb.org/3/search/multi?&${API_KEY}&query=${options.search}&page=${options.page}`,
+  '/top_rated': (options: Options): string =>
+    `https://api.themoviedb.org/3/movie/top_rated?&${API_KEY}&page=${options.page}`,
+  '/upcoming': (options: Options): string =>
+    `https://api.themoviedb.org/3/movie/upcoming?&${API_KEY}&page=${options.page}`,
+  '/popular': (options: Options): string =>
+    `https://api.themoviedb.org/3/movie/popular?&${API_KEY}&page=${options.page}`,
+  '/': (options: Options): string =>
+    `https://api.themoviedb.org/3/movie/popular?&${API_KEY}&page=${options.page}`,
+  '/movie': (options: Options): string =>
+    `https://api.themoviedb.org/3/movie/${options.movieId}?&${API_KEY}&language=en-US`,
+  '/tv': (options: Options): string =>
+    `https://api.themoviedb.org/3/tv/${options.movieId}?&${API_KEY}&language=en-US`,
+  '/filter': (options: Options): string =>
+    `https://api.themoviedb.org/3/discover/movie?&${API_KEY}&language=en-US&sort_by=${options.sortBy}&include_adult=false&include_video=false&page=${options.page}&with_genres=${options.genres}`,
+  '/credits': (options: Options): string =>
     `https://api.themoviedb.org/3/movie/${options.movieId}/credits?&${API_KEY}&language=en-US`,
-    "/similar": (options: Options) =>
+  '/similar': (options: Options): string =>
     `https://api.themoviedb.org/3/movie/${options.search}/similar?&${API_KEY}&language=en-USpage=1`,
-    "/genres": `https://api.themoviedb.org/3/genre/movie/list?${API_KEY}&language=en-US`,
-};
+}
 
 
-export type fetchMovieType = keyof typeof getUrl;
+export type fetchMovieType = keyof typeof getUrl
 
-export type pathnameType = keyof typeof getUrl | 'favorite'
+export type pathnameType = keyof typeof getUrl | '/favorite'
 
 interface Cast {
+  id: number
   name: string
 }
 
@@ -107,33 +94,50 @@ export interface DetailsResult {
   cast: Cast[]
 }
 
-export async function fetchDetails (movieId: string): Promise<DetailsResult>{
-  const detailsUrl = `${API_HOSTNAME}movie/${movieId}?&${API_KEY}&language=en-US`
+export const fetchSeach = async (
+  search: string,
+  page: number
+): Promise<MoviesResult> => {
+  const url = `//api.themoviedb.org/3/search/multi?&${API_KEY}&query=${search}&page=${page}`
+  const searchResponse = await fetch(url)
+  const searchList = await searchResponse.json()
+  return searchList
+}
+
+export async function getMovies(
+  pathname: keyof typeof getUrl,
+  options: Options
+): Promise<MoviesResult> {
+  const url = getUrl[pathname](options)
+  const moviesResponse = await axios.get(url)
+  const { page, total_pages, results } = moviesResponse.data
+  console.log(total_pages);
+  return {
+    moviesList: results,
+    totalPages: total_pages,
+    page,
+  }
+}
+
+export async function fetchDetails(movieId: string): Promise<DetailsResult> {
+  const detailsUrl = `https://api.themoviedb.org/3/movie/${movieId}?&${API_KEY}&language=en-US`
   const castUrl = `https://api.themoviedb.org/3/movie/${movieId}/credits?&${API_KEY}&language=en-US`
   try {
     const detailsResponse = await axios.get(detailsUrl)
-    const creditsResponse = await axios.get(castUrl);
+    const creditsResponse = await axios.get(castUrl)
     return {
       movieDetails: detailsResponse.data,
-      cast: creditsResponse.data.cast
+      cast: creditsResponse.data.cast,
     }
   } catch (err) {
-    console.log(err);
     throw err.message
   }
 }
 
-export async function getMovies(pathname: keyof typeof getUrl, options: Options ): Promise<MoviesResult> {
-  let url = pathname !== '/genres' ? getUrl[pathname](options) : getUrl[pathname];
-  try {
-    let moviesResponse = await axios.get(url);
-    const {page, total_pages, results} = moviesResponse.data;
-    return {
-      pageCount: total_pages,
-      moviesList: results,
-      page
-    };
-  } catch (err){
-    throw err
-  }
+export async function gethGenres(): Promise<GenresProps>{
+  const url = `https://api.themoviedb.org/3/genre/movie/list?${API_KEY}&language=en-US`
+  const {data} = await axios.get(url)
+  return data
 }
+
+export const genresUrl = `https://api.themoviedb.org/3/genre/movie/list?${API_KEY}&language=en-US`
