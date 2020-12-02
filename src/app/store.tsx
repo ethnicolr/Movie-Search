@@ -1,5 +1,4 @@
-import { configureStore, Action } from '@reduxjs/toolkit'
-import { ThunkAction } from 'redux-thunk'
+import { configureStore } from '@reduxjs/toolkit'
 
 import moviesReducer from './../features/movies/moviesSlice'
 import filterReducer from './../features/filter/filterSlice'
@@ -14,7 +13,5 @@ const store = configureStore({
 })
 
 export type RootState = ReturnType<typeof store.getState>
-
-export type AppThunk = ThunkAction<void, RootState, unknown, Action<string>>
 
 export default store

@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
 
 import { MovieType } from '../../api/movieApi'
-import Movie from './moviesListItem'
+import {Movie} from './moviesListItem'
 import style from './moviesList.module.css'
 
 interface MoviesProp {
@@ -10,28 +10,6 @@ interface MoviesProp {
 }
 
 const List = ({ movies, favorite }: MoviesProp) => {
-  const [isScroll, setScroll] = useState(false);
-
-  function toggleVisibility(){
-    if(window.pageYOffset > 300){
-      setScroll(true)
-    } else {
-      setScroll(false)
-    }
-  }
-
-  function scrollToTop() {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth"
-    });
-  }
-  useEffect(() => {
-    document.addEventListener('scroll', toggleVisibility)
-    return () => {
-      document.removeEventListener('scroll', toggleVisibility)
-    }
-  })
   return (
     <ul className={style.moviesList}>
       {movies.map((movie) => {
@@ -42,7 +20,6 @@ const List = ({ movies, favorite }: MoviesProp) => {
           </li>
         )
       })}
-      {isScroll && <div onClick={scrollToTop} className={style.scroll}>Top</div>}
     </ul>
   )
 }

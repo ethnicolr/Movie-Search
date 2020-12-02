@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { addFavorite, deleteFavorite } from './moviesSlice'
 import { MoviesListPage } from './moviesListPage'
-import { DetailsResult, fetchDetails, MovieType } from '../../api/movieApi'
+import { DetailsResult, gethDetails, MovieType } from '../../api/movieApi'
 import {Image} from '../../app/image'
 import vote from './../../style/star.svg'
 import add from './../../style/correct.svg'
@@ -27,7 +27,7 @@ export const MovieDetails = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await fetchDetails(movieId)
+        const data = await gethDetails(movieId)
         setData(data)
         setError(null)
       } catch (err) {

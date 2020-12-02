@@ -14,7 +14,7 @@ type PropMovie = {
   isFav: boolean;
 };
 
-const Movie = ({ movieData, isFav }: PropMovie) => {
+export const Movie = React.memo(({movieData, isFav } : PropMovie) => {
   const {
     title,
     vote_average = 0,
@@ -68,6 +68,7 @@ const Movie = ({ movieData, isFav }: PropMovie) => {
       </button>
     </div>
   );
-};
+})
 
-export default Movie;
+Movie.displayName = "Moviu"
+

@@ -3,7 +3,6 @@ import {
   fetchMovieType,
   getMovies,
   Options,
-  MoviesResult,
   MovieType,
 } from './../../api/movieApi'
 

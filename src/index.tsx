@@ -7,7 +7,7 @@ import App from "./app/App";
 import * as serviceWorker from "./serviceWorker";
 import store from "./app/store";
 
-import './style/app.scss'
+import './style/app.css'
 
 ReactDOM.render(
   <Provider store={store}>

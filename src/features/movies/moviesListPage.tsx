@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useLocation } from 'react-router-dom'
-
 import { pathnameType } from '../../api/movieApi'
 import { fetchMovies } from './moviesSlice'
 import { RootState } from '../../app/store'
@@ -63,23 +62,21 @@ export const MoviesListPage = ({ movieId, grid = '' }: ListProps) => {
     setPage(0)
     window.scrollTo({
       top: 0,
-      behavior: "smooth"
+      behavior: 'smooth',
     })
   }, [location.key, sortBy, genres])
 
-  const handleScroll = () => {
-    if (
-      window.innerHeight + document.documentElement.scrollTop !==
-      document.documentElement.offsetHeight
-    )
-      return
-    if (movieId) return
-    console.log(totalPages);
-    if (totalPages <= 1) return
-    setPage((page) => page + 1)
-  }
-
   useEffect(() => {
+    function handleScroll() {
+      if (
+        window.innerHeight + document.documentElement.scrollTop !==
+        document.documentElement.offsetHeight
+      )
+        return
+      if (movieId) return
+      if (totalPages <= 1) return
+      setPage((page) => page + 1)
+    }
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
   }, [location.key, totalPages])

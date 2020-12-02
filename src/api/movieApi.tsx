@@ -111,7 +111,6 @@ export async function getMovies(
   const url = getUrl[pathname](options)
   const moviesResponse = await axios.get(url)
   const { page, total_pages, results } = moviesResponse.data
-  console.log(total_pages);
   return {
     moviesList: results,
     totalPages: total_pages,
@@ -119,7 +118,7 @@ export async function getMovies(
   }
 }
 
-export async function fetchDetails(movieId: string): Promise<DetailsResult> {
+export async function gethDetails(movieId: string): Promise<DetailsResult> {
   const detailsUrl = `https://api.themoviedb.org/3/movie/${movieId}?&${API_KEY}&language=en-US`
   const castUrl = `https://api.themoviedb.org/3/movie/${movieId}/credits?&${API_KEY}&language=en-US`
   try {

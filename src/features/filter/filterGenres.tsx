@@ -9,6 +9,7 @@ import style from './filterGenres.module.css'
 export const FilterGenres = () => {
   const dispatch = useDispatch()
   const genres = useSelector((state: RootState) => state.filter.genres)
+  
   useEffect(() => {
     if (genres.length === 0) {
       dispatch(fetchGenres())
