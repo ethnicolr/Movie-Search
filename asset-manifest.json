@@ -1,0 +1,27 @@
+{
+  "files": {
+    "main.css": "/Movie-Search/static/css/main.317f856a.chunk.css",
+    "main.js": "/Movie-Search/static/js/main.cec4327d.chunk.js",
+    "main.js.map": "/Movie-Search/static/js/main.cec4327d.chunk.js.map",
+    "runtime-main.js": "/Movie-Search/static/js/runtime-main.1e12d08b.js",
+    "runtime-main.js.map": "/Movie-Search/static/js/runtime-main.1e12d08b.js.map",
+    "static/js/2.b8d4c4b7.chunk.js": "/Movie-Search/static/js/2.b8d4c4b7.chunk.js",
+    "static/js/2.b8d4c4b7.chunk.js.map": "/Movie-Search/static/js/2.b8d4c4b7.chunk.js.map",
+    "index.html": "/Movie-Search/index.html",
+    "static/css/main.317f856a.chunk.css.map": "/Movie-Search/static/css/main.317f856a.chunk.css.map",
+    "static/js/2.b8d4c4b7.chunk.js.LICENSE.txt": "/Movie-Search/static/js/2.b8d4c4b7.chunk.js.LICENSE.txt",
+    "static/media/header.module.css": "/Movie-Search/static/media/search.fcc8acc3.svg",
+    "static/media/correct.ee68b2c4.svg": "/Movie-Search/static/media/correct.ee68b2c4.svg",
+    "static/media/error.3b399b81.png": "/Movie-Search/static/media/error.3b399b81.png",
+    "static/media/github.5bd2adb5.svg": "/Movie-Search/static/media/github.5bd2adb5.svg",
+    "static/media/minus.7c0e2173.svg": "/Movie-Search/static/media/minus.7c0e2173.svg",
+    "static/media/react-logo.20adfb35.png": "/Movie-Search/static/media/react-logo.20adfb35.png",
+    "static/media/star.47e5172b.svg": "/Movie-Search/static/media/star.47e5172b.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.1e12d08b.js",
+    "static/js/2.b8d4c4b7.chunk.js",
+    "static/css/main.317f856a.chunk.css",
+    "static/js/main.cec4327d.chunk.js"
+  ]
+}
