@@ -1,103 +1,46 @@
-import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { useLocation } from 'react-router-dom'
-import { pathnameType } from '../../api/movieApi'
-import { fetchMovies } from './moviesSlice'
+import React from 'react'
+import { Status, MoviesResult } from '../../api/movieApi'
+import { Pagination, OnPageChangeCallback } from './moviesPagination'
+import { useSelector } from 'react-redux'
 import { RootState } from '../../app/store'
-import ListMovies from './moviesList'
-import Spinner from './../../app/Spinner'
+import { MoviesList } from './moviesList'
+import { Spinner } from './../../app/Spinner'
 import style from './moviesListPage.module.css'
 
-interface ListProps {
-  grid?: string
-  movieId?: string
+interface Props {
+  status: Status
+  moviesData: MoviesResult | null
+  onPageChange: OnPageChangeCallback
 }
 
-export const MoviesListPage = ({ movieId, grid = '' }: ListProps) => {
-  const [page, setPage] = useState(0)
+export const MoviesListPage = ({ status, moviesData, onPageChange }: Props) => {
+  const favorite = useSelector((state: RootState) => state.movies.favorite)
 
-  const dispatch = useDispatch()
-  const location = useLocation()
-
-  const { genres, sortBy } = useSelector((state: RootState) => state.filter)
-  const { moviesList, favorite, totalPages, moviesStatus } = useSelector(
-    (state: RootState) => state.movies
-  )
-  const pathname = location.pathname as pathnameType
-  const search = location.search
-
-  useEffect(() => {
-    if (pathname === '/favorite') return
-
-    if (movieId) {
-      dispatch(
-        fetchMovies({
-          pathname: '/similar',
-          options: {
-            search: movieId,
-          },
-        })
-      )
-      return
-    }
-
-    const selectedGenres = genres
-      .filter((genre) => genre.selected)
-      .map((genre) => genre.id)
-
-    dispatch(
-      fetchMovies({
-        pathname,
-        options: {
-          search,
-          genres: selectedGenres,
-          sortBy,
-          page: page + 1,
-        },
-      })
+  if (moviesData == null || status == 'fetching') {
+    return (
+      <div className={style.listMovies}>
+        <Spinner />
+      </div>
     )
-  }, [pathname, sortBy, movieId, genres, page, search])
-
-  useEffect(() => {
-    setPage(0)
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    })
-  }, [location.key, sortBy, genres])
-
-  useEffect(() => {
-    function handleScroll() {
-      if (
-        window.innerHeight + document.documentElement.scrollTop !==
-        document.documentElement.offsetHeight
-      )
-        return
-      if (movieId) return
-      if (totalPages <= 1) return
-      setPage((page) => page + 1)
-    }
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [location.key, totalPages])
-
-  let listMovie
-
-  if (pathname === '/favorite') {
-    listMovie = favorite
-  } else {
-    listMovie = moviesList
   }
 
+  if (status == 'fetched' && moviesData.moviesList.length == 0) {
+    return (
+      <div className={style.listMovies}>
+        <h2>Not fount</h2>
+      </div>
+    )
+  }
+
+  const { moviesList, totalPages, page } = moviesData
   return (
     <div className={style.listMovies}>
-      {listMovie.length === 0 && moviesStatus === 'succeeded' ? (
-        <h1>Not found</h1>
-      ) : (
-        <ListMovies movies={listMovie} favorite={favorite} />
-      )}
-
-      {moviesStatus == 'pendiing' && <Spinner />}
+      <MoviesList movies={moviesList} favorite={favorite} />
+      <Pagination
+        pageCount={totalPages}
+        currentPage={page}
+        onPageChange={onPageChange}
+      />
     </div>
   )
 }

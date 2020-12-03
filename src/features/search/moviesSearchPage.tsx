@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { useHistory, useLocation } from 'react-router-dom'
 import { debounce } from 'lodash'
 import { getMovies,MovieType } from '../../api/movieApi'
@@ -20,15 +20,18 @@ export const MoviesSearchPage = () => {
 
   const delay = useCallback(
     debounce((value: string) => {
+      
+    
       setStatus("pendiing")
       const fetchS = async () => {
         try {
-          const data = await getMovies('/search', {search: value})
+          const data = await getMovies({pathname: '/search', search: value})
           const list = data.moviesList.slice(0, 5)
           setList(list)
           setStatus('succeeded')
         } catch (err){
           setStatus('failed')
+          console.log("fail");
           setError(err)
         }
       }

@@ -9,7 +9,7 @@ interface MoviesProp {
   favorite: MovieType[]
 }
 
-const List = ({ movies, favorite }: MoviesProp) => {
+export const MoviesList = ({ movies, favorite }: MoviesProp) => {
   return (
     <ul className={style.moviesList}>
       {movies.map((movie) => {
@@ -24,4 +24,3 @@ const List = ({ movies, favorite }: MoviesProp) => {
   )
 }
 
-export default List

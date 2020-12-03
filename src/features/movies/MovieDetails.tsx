@@ -2,15 +2,15 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { addFavorite, deleteFavorite } from './moviesSlice'
-import { MoviesListPage } from './moviesListPage'
 import { DetailsResult, gethDetails, MovieType } from '../../api/movieApi'
-import {Image} from '../../app/image'
+import { useFetch } from './../../hooks/useFetch'
+import { RootState } from '../../app/store'
+import { MoviesList } from './moviesList'
+import { Image } from '../../app/image'
+
+import remove from './../../style/minus.svg'
 import vote from './../../style/star.svg'
 import add from './../../style/correct.svg'
-import remove from './../../style/minus.svg'
-
-import { RootState } from '../../app/store'
-
 import style from './movieDetails.module.css'
 
 interface PropsParams {
@@ -23,6 +23,8 @@ export const MovieDetails = () => {
   const [error, setError] = React.useState(null)
   const { movieId, media_type } = useParams<PropsParams>()
   const dispatch = useDispatch()
+
+  const { data: similarMovie } = useFetch({ pathname: '/similar', movieId })
 
   useEffect(() => {
     const fetchData = async () => {
@@ -173,9 +175,7 @@ export const MovieDetails = () => {
       </div>
       <div className={style.recommend}>
         <h2 className={style.headline}>Recommendations</h2>
-        {movieId ? (
-          <MoviesListPage movieId={id} grid={'list-movies--small'} />
-        ) : null}
+        {similarMovie ? ( <MoviesList movies={similarMovie.moviesList} favorite={favorite} /> ) : null}
       </div>
     </div>
   )

@@ -37,6 +37,7 @@ export interface MoviesResult {
 }
 
 export interface Options {
+  pathname: keyof typeof getUrl
   search?: string
   page?: number
   genres?: string[]
@@ -76,7 +77,7 @@ export const getUrl = {
   '/credits': (options: Options): string =>
     `https://api.themoviedb.org/3/movie/${options.movieId}/credits?&${API_KEY}&language=en-US`,
   '/similar': (options: Options): string =>
-    `https://api.themoviedb.org/3/movie/${options.search}/similar?&${API_KEY}&language=en-USpage=1`,
+    `https://api.themoviedb.org/3/movie/${options.movieId}/similar?&${API_KEY}&language=en-USpage=1`,
 }
 
 
@@ -94,6 +95,8 @@ export interface DetailsResult {
   cast: Cast[]
 }
 
+export type Status = 'indle' | 'fetching' | 'fetched' | 'error'
+
 export const fetchSeach = async (
   search: string,
   page: number
@@ -105,10 +108,11 @@ export const fetchSeach = async (
 }
 
 export async function getMovies(
-  pathname: keyof typeof getUrl,
   options: Options
 ): Promise<MoviesResult> {
-  const url = getUrl[pathname](options)
+  const path = options.pathname;
+
+  const url = getUrl[path](options)
   const moviesResponse = await axios.get(url)
   const { page, total_pages, results } = moviesResponse.data
   return {

@@ -1,7 +1,7 @@
 import React from 'react'
 import { FilterGenres } from './filterGenres'
 import { FilterSorting } from './filterSorting'
-import { MoviesListPage } from '../movies/moviesListPage'
+import {LoadFilterMovies} from '../movies/moviesLoadFilter'
 import style from './filerPage.module.css'
 
 export const FilterPage = () => {
@@ -14,7 +14,7 @@ export const FilterPage = () => {
         <FilterGenres />
       </div>
       <div className={style.movies}>
-        <MoviesListPage grid={'medium'} />
+        <LoadFilterMovies />
       </div>
     </div>
   )
