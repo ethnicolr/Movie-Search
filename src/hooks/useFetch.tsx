@@ -1,17 +1,7 @@
-import React, { useEffect, useState, useReducer } from 'react'
+import { useEffect, useReducer } from 'react'
 import { isEqual } from 'lodash'
-import {
-  fetchMovieType,
-  getMovies,
-  Options,
-  MoviesResult,
-} from '../api/movieApi'
+import { getMovies, Options, MoviesResult } from '../api/movieApi'
 import { usePrevious } from './usePrevious'
-
-interface Props {
-  pathname: fetchMovieType
-  options: Options
-}
 
 type Status = 'indle' | 'fetching' | 'fetched' | 'error'
 
@@ -39,32 +29,29 @@ function reducer(state: State, action: ACTIONTYPE): State {
   }
 }
 
-
-export const useFetch = ( options :Options) => {
-  console.log(options.pathname);
+export const useFetch = (options: Options): State => {
   const initialState: State = {
     data: null,
     status: 'indle',
-    error: null
+    error: null,
   }
   const previousOptions = usePrevious(options)
-  
+
   const [state, dispatch] = useReducer(reducer, initialState)
 
   useEffect(() => {
     if (!options) return
-    if(isEqual(previousOptions, options)) return
-      const fetchData = async () => {
-        dispatch({ type: 'FETCHING' })
-        try {
-          const response = await getMovies(options)
-          dispatch({ type: 'FETCHED', payload: response })
-        } catch (err) {
-          dispatch({ type: 'FETCH_ERROR', payload: err })
-        }
+    if (isEqual(previousOptions, options)) return
+    const fetchData = async () => {
+      dispatch({ type: 'FETCHING' })
+      try {
+        const response = await getMovies(options)
+        dispatch({ type: 'FETCHED', payload: response })
+      } catch (err) {
+        dispatch({ type: 'FETCH_ERROR', payload: err })
       }
-      fetchData()
-    
+    }
+    fetchData()
   }, [options])
 
   return state
