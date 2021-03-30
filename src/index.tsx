@@ -1,24 +1,37 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import { Provider } from "react-redux";
-import { BrowserRouter } from "react-router-dom";
+import React from 'react'
+import ReactDOM from 'react-dom'
+import { Provider } from 'react-redux'
+import { BrowserRouter } from 'react-router-dom'
+import firebase from 'firebase/app'
+import 'firebase/auth'
 
-import App from "./app/App";
-import * as serviceWorker from "./serviceWorker";
-import store from "./app/store";
-
+import App from './app/App'
+import * as serviceWorker from './serviceWorker'
+import store from './app/store'
 import './style/app.css'
+
+const app = firebase.initializeApp({
+  apiKey: 'AIzaSyCxdPvr7NzjTO47p9_GCTcoBnSiIGUGxWA',
+  authDomain: 'movies-search-35388.firebaseapp.com',
+  projectId: 'movies-search-35388',
+  storageBucket: 'movies-search-35388.appspot.com',
+  messagingSenderId: '558665270121',
+  appId: '1:558665270121:web:56e191207195258c4fb3f8',
+})
+
+export const auth = app.auth()
+// Initialize Firebase
 
 ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter>
-    <App />
+      <App />
     </BrowserRouter>
   </Provider>,
-  document.getElementById("root")
-);
+  document.getElementById('root')
+)
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+serviceWorker.unregister()

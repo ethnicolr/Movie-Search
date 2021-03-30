@@ -5,7 +5,7 @@ import { addFavorite, deleteFavorite } from './moviesSlice'
 import { DetailsResult, gethDetails, MovieType } from '../../api/movieApi'
 import { useFetch } from './../../hooks/useFetch'
 import { RootState } from '../../app/store'
-import { MoviesList } from './moviesList'
+import { MoviesList } from './MoviesList'
 import { Image } from '../../app/image'
 
 import remove from './../../style/minus.svg'
@@ -175,7 +175,9 @@ export const MovieDetails = () => {
       </div>
       <div className={style.recommend}>
         <h2 className={style.headline}>Recommendations</h2>
-        {similarMovie ? ( <MoviesList movies={similarMovie.moviesList} favorite={favorite} /> ) : null}
+        {similarMovie ? (
+          <MoviesList movies={similarMovie.moviesList} favorite={favorite} />
+        ) : null}
       </div>
     </div>
   )

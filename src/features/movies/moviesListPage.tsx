@@ -3,7 +3,7 @@ import { Status, MoviesResult } from '../../api/movieApi'
 import { Pagination, OnPageChangeCallback } from './moviesPagination'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../app/store'
-import { MoviesList } from './moviesList'
+import { MoviesList } from './MoviesList'
 import { Spinner } from './../../app/Spinner'
 import style from './moviesListPage.module.css'
 

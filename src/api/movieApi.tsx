@@ -51,11 +51,9 @@ export interface Genre {
   selected: boolean
 }
 
-
 interface GenresProps {
   genres: Genre[]
 }
-
 
 export const getUrl = {
   '/search': (options: Options): string =>
@@ -79,7 +77,6 @@ export const getUrl = {
   '/similar': (options: Options): string =>
     `https://api.themoviedb.org/3/movie/${options.movieId}/similar?&${API_KEY}&language=en-USpage=1`,
 }
-
 
 export type fetchMovieType = keyof typeof getUrl
 
@@ -107,10 +104,8 @@ export const fetchSeach = async (
   return searchList
 }
 
-export async function getMovies(
-  options: Options
-): Promise<MoviesResult> {
-  const path = options.pathname;
+export async function getMovies(options: Options): Promise<MoviesResult> {
+  const path = options.pathname
 
   const url = getUrl[path](options)
   const moviesResponse = await axios.get(url)
@@ -137,9 +132,9 @@ export async function gethDetails(movieId: string): Promise<DetailsResult> {
   }
 }
 
-export async function gethGenres(): Promise<GenresProps>{
+export async function gethGenres(): Promise<GenresProps> {
   const url = `https://api.themoviedb.org/3/genre/movie/list?${API_KEY}&language=en-US`
-  const {data} = await axios.get(url)
+  const { data } = await axios.get(url)
   return data
 }
 
