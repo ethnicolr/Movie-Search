@@ -1,15 +1,12 @@
-/** @jsxRuntime classic */
-/** @jsx jsx */
-import { jsx } from '@emotion/react'
 import React, { useState } from 'react'
-import { useAuth } from './../context/authContext'
+import { useAuth, singupType, loginType } from '../../context/authContext'
 
 type FormProps = {
   buttenText: string
-  onSubmit: Function
+  onSubmit: singupType | loginType
 }
 
-export default function Form({ buttenText }: FormProps): JSX.Element {
+export function AuthForm({ buttenText, onSubmit }: FormProps): JSX.Element {
   const { singup } = useAuth()
   const [error, setError] = useState('')
 
@@ -22,12 +19,12 @@ export default function Form({ buttenText }: FormProps): JSX.Element {
     const email = target.email.value // typechecks!
     const password = target.password.value
     try {
-      await singup(email, password)
+      await onSubmit(email, password)
     } catch (err) {
-      console.log(err)
       setError(err.message)
     }
   }
+
   return (
     <form onSubmit={handleSubmit}>
       <div>
@@ -39,11 +36,9 @@ export default function Form({ buttenText }: FormProps): JSX.Element {
         <input id='password' type='password' />
       </div>
       <div>
-        <button type='submit' css={{ color: 'red' }}>
-          {buttenText}
-        </button>
+        <button type='submit'>{buttenText}</button>
       </div>
-      {error && <h1>{error}</h1>}
+      {error && <p>{error}</p>}
     </form>
   )
 }

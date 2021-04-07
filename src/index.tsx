@@ -2,12 +2,13 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import { BrowserRouter } from 'react-router-dom'
+import { AuthProvider } from './context/authContext'
 import firebase from 'firebase/app'
-import 'firebase/auth'
-
-import App from './app/App'
-import * as serviceWorker from './serviceWorker'
 import store from './app/store'
+import 'firebase/firestore'
+import 'firebase/auth'
+import * as serviceWorker from './serviceWorker'
+import App from './app/App'
 import './style/app.css'
 
 const app = firebase.initializeApp({
@@ -20,14 +21,16 @@ const app = firebase.initializeApp({
 })
 
 export const auth = app.auth()
-// Initialize Firebase
+export const db = firebase.firestore()
 
 ReactDOM.render(
-  <Provider store={store}>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  </Provider>,
+  <AuthProvider>
+    <Provider store={store}>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </Provider>
+  </AuthProvider>,
   document.getElementById('root')
 )
 

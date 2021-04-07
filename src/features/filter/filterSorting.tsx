@@ -3,6 +3,18 @@ import { useDispatch, useSelector } from 'react-redux'
 import { sortBy } from './filterSlice'
 import { RootState } from './../../app/store'
 import style from './filterSorting.module.css'
+import styled from 'styled-components'
+import { Title } from '../../app/lib'
+
+const Container = styled.div`
+  text-align: right;
+  padding: 20px 25px 10px 0;
+`
+
+const Items = styled.ul`
+  display: flex;
+  justify-content: flex-end;
+`
 
 export const FilterSorting = () => {
   const dispatch = useDispatch()
@@ -19,10 +31,10 @@ export const FilterSorting = () => {
   }
 
   return (
-    <div className={style.sort}>
-      <h3 className={style.title}>Sort by</h3>
-      <ul className={style.items}>
-        <li className={style.item}>
+    <Container className={style.sort}>
+      <Title size={'20px'}>Sort by</Title>
+      <Items>
+        <li>
           <button
             className={sortActivity('popularity')}
             name='popularity'
@@ -49,7 +61,7 @@ export const FilterSorting = () => {
             rating
           </button>
         </li>
-      </ul>
-    </div>
+      </Items>
+    </Container>
   )
 }

@@ -5,8 +5,8 @@ import filterReducer from './../features/filter/filterSlice'
 
 const store = configureStore({
   reducer: {
-    movies: moviesReducer,
-    filter: filterReducer
+    // movies: moviesReducer,
+    filter: filterReducer,
   },
 })
 

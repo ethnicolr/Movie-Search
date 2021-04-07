@@ -1,23 +1,30 @@
-import React from "react";
-import { MovieType } from "../../api/movieApi";
-import { MoviesSearchItem } from "./moviesSearchItem";
-import style from './moviesSearchList.module.css'
+import React from 'react'
+import styled from 'styled-components'
+import { MovieType } from '../../api/movieApi'
+import { MoviesSearchItem } from './moviesSearchItem'
 
 interface Props {
-  movies: MovieType[];
+  movies: MovieType[]
 }
 
-export const MoviesSearchList = React.memo((({movies}: Props) => {
+const SearchItem = styled.li`
+  border: 1px solid #2f2f2f;
+  padding: 5px;
+  &:hover {
+    background-color: #494949;
+  }
+`
+
+export const MoviesSearchList = React.memo(({ movies }: Props) => {
   return (
     <ul>
       {movies.map((movie: MovieType) => (
-        <li className={style.searchItem} key={movie.id}>
+        <SearchItem key={movie.id}>
           <MoviesSearchItem movie={movie} />
-        </li>
+        </SearchItem>
       ))}
     </ul>
-  );
-}))
-
+  )
+})
 
 MoviesSearchList.displayName = 'MoviesSearchList'

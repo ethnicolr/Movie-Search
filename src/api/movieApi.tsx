@@ -1,5 +1,6 @@
 import axios from 'axios'
-export const API_KEY = 'api_key=33691dc9097a0a10121b027c1856edd7'
+import { request } from 'http'
+export const API_KEY = 'api_key=7f68618aa54d9ed1ed130222e4778d53'
 
 export interface Details {
   id: string
@@ -127,6 +128,22 @@ export async function gethDetails(movieId: string): Promise<DetailsResult> {
       movieDetails: detailsResponse.data,
       cast: creditsResponse.data.cast,
     }
+  } catch (err) {
+    throw err.message
+  }
+}
+
+export async function getFavorite(list: string[]): Promise<MovieType[]> {
+  try {
+    const favoriteList = await Promise.all(
+      list.map(async (id) => {
+        const response = await axios.get(
+          `https://api.themoviedb.org/3/movie/${id}?${API_KEY}&language=en-US`
+        )
+        return response.data
+      })
+    )
+    return favoriteList
   } catch (err) {
     throw err.message
   }

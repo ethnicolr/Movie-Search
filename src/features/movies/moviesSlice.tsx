@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { MovieType } from './../../api/movieApi'
+import { useAuth } from './../../context/authContext'
 
 interface MovieState {
   favorite: MovieType[]
@@ -25,6 +26,7 @@ const moviesSlice = createSlice({
       state.favorite = state.favorite.filter(
         (movie: MovieType) => movie.id !== action.payload
       )
+      window.localStorage.setItem('favorite', JSON.stringify(state.favorite))
     },
   },
 })

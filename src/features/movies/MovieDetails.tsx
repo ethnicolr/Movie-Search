@@ -1,28 +1,129 @@
 import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
-import { addFavorite, deleteFavorite } from './moviesSlice'
-import { DetailsResult, gethDetails, MovieType } from '../../api/movieApi'
+import { DetailsResult, gethDetails } from '../../api/movieApi'
 import { useFetch } from './../../hooks/useFetch'
-import { RootState } from '../../app/store'
+import { useAuth } from './../../context/authContext'
 import { MoviesList } from './MoviesList'
-import { Image } from '../../app/image'
+import { Image } from './../../app/Image'
+import { Title, Text, device } from '../../app/lib'
 
 import remove from './../../style/minus.svg'
 import vote from './../../style/star.svg'
 import add from './../../style/correct.svg'
-import style from './movieDetails.module.css'
+import styled from 'styled-components'
 
 interface PropsParams {
   movieId: string
   media_type: string
 }
 
+const Container = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 5;
+  width: 70%;
+  height: 100%;
+  margin: 100px auto;
+  box-sizing: border-box;
+  padding: 50px;
+  color: #fff;
+  background: #0b0b0b;
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
+  @media ${device.laptopL} {
+    width: 80%;
+  }
+  @media ${device.laptopS} {
+    justify-content: center;
+  }
+  @media ${device.mobileL} {
+    width: 100%;
+    margin: 0 auto;
+  }
+`
+
+const ContainerImage = styled.div`
+  margin-right: 75px;
+  width: 30%;
+  @media ${device.laptopM} {
+    margin-right: 45px;
+    width: 250px;
+    img {
+      width: 250px;
+    }
+  }
+  @media ${device.laptopS} {
+    width: 350px;
+    margin: 0 auto;
+    margin-bottom: 25px;
+  }
+  @media ${device.mobileL} {
+    width: 100%;
+    margin: 0 auto;
+    margin-bottom: 25px;
+  }
+`
+const ContainerDesc = styled.div`
+  width: 55%;
+`
+const ContainerInfo = styled.div`
+  display: flex;
+  margin-bottom: 10px;
+`
+
+const Heading = styled(ContainerInfo)`
+  justify-content: space-between;
+  align-items: center;
+`
+
+const Desc = styled(ContainerInfo)`
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+`
+
+const Vote = styled.span`
+  font-size: 30px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  img {
+    width: 15px;
+    height: 15px;
+    margin-left: 5px;
+
+`
+
+const Tagline = styled.h2`
+  font-size: 16px;
+  color: rgb(146, 146, 146);
+  font-weight: 600;
+  flex-basis: 20%;
+`
+
+const TextDesc = styled(Text)`
+  flex-basis: 80%;
+  margin-bottom: 10px;
+`
+
+const Button = styled.button`
+  position: relative;
+  display: flex;
+  color: #fff;
+  font-size: 17px;
+  background: #202020;
+  padding: 10px 30px;
+  margin-top: 20px;
+  border-radius: 4px;
+  outline: none;
+  img {
+    width: 16px;
+    margin-right: 10px;
+  }
+`
+
 export const MovieDetails = () => {
   const [data, setData] = React.useState<DetailsResult | null>(null)
   const [error, setError] = React.useState(null)
   const { movieId, media_type } = useParams<PropsParams>()
-  const dispatch = useDispatch()
 
   const { data: similarMovie } = useFetch({ pathname: '/similar', movieId })
 
@@ -38,11 +139,18 @@ export const MovieDetails = () => {
     }
     fetchData()
   }, [media_type, movieId])
+  const {
+    currentUser,
+    logout,
+    handleLoginModal,
+    isOpenLogin,
+    addToStorage,
+    deleteFromStorage,
+    favoriteList,
+  } = useAuth()
 
-  const favorite = useSelector((state: RootState) => state.movies.favorite)
-  const isFav = favorite.some((favorite: MovieType) => {
-    return favorite.id == movieId
-  })
+  // const favorite = useSelector((state: RootState) => state.movies.favorite)
+  const isFav = favoriteList.some((id) => id == movieId)
 
   if (error) {
     return <h2 className='movie-details__title'>{error}</h2>
@@ -70,22 +178,11 @@ export const MovieDetails = () => {
   } = data.movieDetails
 
   const handleFavorite = () => {
-    if (isFav) {
-      dispatch(deleteFavorite(data.movieDetails.id))
-    } else {
-      dispatch(
-        addFavorite({
-          id,
-          title,
-          vote_average,
-          poster_path,
-          release_date,
-          name,
-          first_air_date,
-          media_type,
-        })
-      )
+    if (!currentUser) {
+      handleLoginModal(true)
+      return
     }
+    isFav ? deleteFromStorage(id) : addToStorage(id)
   }
 
   const genresList = genres.length
@@ -105,80 +202,76 @@ export const MovieDetails = () => {
     .replace(/\B(?=(\d{3})+(?!\d))/g, '.')}`
 
   return (
-    <div className={style.movieDetails}>
-      <div className={style.container}>
-        <div className={style.leftColumn}>
-          <Image src={`https://image.tmdb.org/t/p/w500/${poster_path}`} />
-        </div>
-        <div className={style.rightColumn}>
-          <div className={style.heading}>
-            <h2 className={style.title}> {title || name} </h2>
-            <span className={style.vote}>
-              {`${vote_average} `}
-              <img className={style.thumb} src={vote} alt='vote' />
-            </span>
-          </div>
+    <Container>
+      <ContainerImage>
+        <Image src={`https://image.tmdb.org/t/p/w500/${poster_path}`} />
+      </ContainerImage>
+      <ContainerDesc>
+        <Heading>
+          <h2> {title || name} </h2>
+          <Vote>
+            {`${vote_average} `}
+            <img src={vote} alt='vote' />
+          </Vote>
+        </Heading>
 
-          {release_date || first_air_date ? (
-            <div className={style.info}>
-              <h3 className={style.tagline}>Year</h3>
-              <p className={style.text}>
-                {(release_date || first_air_date).split('-')[0]}
-              </p>
-            </div>
-          ) : null}
-
-          {countries ? (
-            <div className={style.info}>
-              <h3 className={style.tagline}>Country</h3>
-              <p className={style.text}>{countries}</p>
-            </div>
-          ) : null}
-
-          <div className={style.info}>
-            <h3 className={style.tagline}>Genres</h3>
-            <p className={style.text}>{genresList}</p>
-          </div>
-
-          {tagline ? (
-            <div className={style.info}>
-              <h3 className={style.tagline}>Tag</h3>
-              <p className={style.text}>{tagline}</p>
-            </div>
-          ) : null}
-
-          <div className={style.info}>
-            <h3 className={style.tagline}>Cast</h3>
-            <p className={style.text}>{castList}</p>
-          </div>
-
-          <div className={style.info}>
-            <h3 className={style.tagline}>Runtime</h3>
-            <p className={style.text}>
-              {episode_run_time || runtime} {' min'}
-            </p>
-          </div>
-
-          <div className={style.info}>
-            <h3 className={style.tagline}>Budget</h3>
-            <p className={style.text}>{formatBudget}</p>
-          </div>
-
-          <h2 className={style.subtitle}>Overview</h2>
-          <p className={style.overview}> {overview} </p>
-
-          <button className={style.btn} onClick={handleFavorite}>
-            <img src={isFav ? add : remove} alt='favorite' />
-            {isFav ? 'Delete from Favorite' : 'Add to Favorite'}
-          </button>
-        </div>
-      </div>
-      <div className={style.recommend}>
-        <h2 className={style.headline}>Recommendations</h2>
-        {similarMovie ? (
-          <MoviesList movies={similarMovie.moviesList} favorite={favorite} />
+        {release_date || first_air_date ? (
+          <Desc>
+            <Tagline>Year</Tagline>
+            <TextDesc>
+              {(release_date || first_air_date).split('-')[0]}
+            </TextDesc>
+          </Desc>
         ) : null}
+
+        {countries ? (
+          <Desc>
+            <Tagline>Country</Tagline>
+            <TextDesc>{countries}</TextDesc>
+          </Desc>
+        ) : null}
+
+        <Desc>
+          <Tagline>Genres</Tagline>
+          <TextDesc>{genresList}</TextDesc>
+        </Desc>
+
+        {tagline ? (
+          <Desc>
+            <Tagline>Tag</Tagline>
+            <TextDesc>{tagline}</TextDesc>
+          </Desc>
+        ) : null}
+
+        <Desc>
+          <Tagline>Cast</Tagline>
+          <TextDesc>{castList}</TextDesc>
+        </Desc>
+
+        <Desc>
+          <Tagline>Runtime</Tagline>
+          <TextDesc>
+            {episode_run_time || runtime} {' min'}
+          </TextDesc>
+        </Desc>
+
+        <Desc>
+          <Tagline>Budget</Tagline>
+          <TextDesc>{formatBudget}</TextDesc>
+        </Desc>
+
+        <Title size={'30px'}>Overview</Title>
+        <Text size={'18px'}> {overview} </Text>
+
+        <Button onClick={handleFavorite}>
+          <img src={isFav ? add : remove} alt='favorite' />
+          {isFav ? 'Delete from Favorite' : 'Add to Favorite'}
+        </Button>
+      </ContainerDesc>
+      <div>
+        <Title>Recommendations</Title>
+        {similarMovie ? <MoviesList movies={similarMovie.moviesList} /> : null}
       </div>
-    </div>
+    </Container>
   )
 }

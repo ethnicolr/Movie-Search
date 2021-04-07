@@ -1,30 +1,119 @@
 import React, { useEffect, useRef } from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
 import github from './../style/github.svg'
-import style from './navbar.module.css'
+import styled from 'styled-components'
+import { device } from './lib'
+// import style from './navbar.module.css'
+import Toggle from './Toggle'
+import { useClickOutSide } from './../hooks/useClickOutSide'
+
+const Nav = styled.nav`
+  grid-area: nv;
+  font-size: 20px;
+  transition: ease 0.3s;
+  media ${device.laptopM} {
+    justify-self: center;
+  }
+`
+
+const List = styled.ul`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  @media ${device.laptopM} {
+    flex-direction: column;
+    align-items: flex-end;
+    box-sizing: border-box;
+    position: absolute;
+    z-index: 100;
+    left: 0;
+    bottom: -361px;
+    width: 250px;
+    background-color: #212121;
+    -webkit-font-smoothing: antialiased;
+    transform-origin: 0% 0%;
+    transform: translate(-100%, 0);
+    transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1);
+  }
+`
+
+const ListHidden = styled(List)`
+  transform: none;
+`
+
+const Item = styled.li`
+  cursor: pointer;
+  @media ${device.laptopM} {
+    width: 100%;
+    margin-left: 40px;
+    display: block;
+  }
+  @media ${device.mobileM} {
+    margin-left: 0;
+  }
+`
+const activeClassName = 'nav-item-active'
+
+const Link = styled(NavLink).attrs({ activeClassName })`
+  &.${activeClassName} {
+    &::after {
+      transform: scaleY(1);
+    }
+    @media ${device.laptopM} {
+      background-color: #252525;
+    }
+  }
+  display: inline-block;
+  color: #fff;
+  font-weight: 400;
+  line-height: 60px;
+  position: relative;
+  transition: color 0.3s ease;
+  &:hover {
+    color: #999;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    background-color: #fff;
+    width: 100%;
+    height: 4px;
+    bottom: 0px;
+    left: 0;
+    transform: scaleY(0);
+    transform-origin: bottom;
+    transition: transform 235ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  @media ${device.laptopM} {
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+    padding-left: 25px;
+    &::after {
+      display: none;
+    }
+  }
+`
+
+const Icon = styled.img`
+  transition: opacity 0.3s ease;
+  width: 25px;
+  &:hover {
+    opacity: 0.6;
+  }
+`
 
 export const Navbar = () => {
-  
   const wrapperRef = useRef<HTMLElement | null>(null)
   const location = useLocation()
   const [isHidden, setHidden] = React.useState<boolean>(true)
 
-  useEffect(() => {
-    function handleClickOutside(e: MouseEvent): void {
-      if (
-        wrapperRef.current &&
-        !wrapperRef.current.contains(e.target as Node)
-      ) {
-        document.body.classList.remove('overlay')
-        setHidden(true)
-      }
-    }
-
-    document.addEventListener('mousedown', handleClickOutside)
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside)
-    }
-  }, [])
+  useClickOutSide(wrapperRef, () => {
+    document.body.classList.remove('overlay')
+    setHidden(true)
+  })
 
   useEffect(() => {
     setHidden(true)
@@ -40,92 +129,39 @@ export const Navbar = () => {
       document.body.classList.toggle('overlay')
     }
   }
+
+  const Items = isHidden ? List : ListHidden
   return (
-    <nav className={style.nav} ref={wrapperRef}>
-      <div className={style.container}>
-        <div
-          className={
-            isHidden
-              ? `${style.toggle}`
-              : `${style.toggle} ${style.toggleHidden}`
-          }
-        >
-          <button
-            className={style.btn}
-            onClick={() => handleClickBtn()}
-          ></button>
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
-        <ul
-          className={
-            isHidden ? `${style.items}` : `${style.items} ${style.itemsHidden}`
-          }
-        >
-          <li className={style.item}>
-            <NavLink
-              className={style.link}
-              exact
-              activeClassName={style.selected}
-              to='/'
-            >
-              Popular
-            </NavLink>
-          </li>
-          <li className={style.item}>
-            <NavLink
-              className={style.link}
-              activeClassName={style.selected}
-              to='/upcoming'
-            >
-              Up comning
-            </NavLink>
-          </li>
-          <li className={style.item}>
-            <NavLink
-              className={style.link}
-              activeClassName={style.selected}
-              to='/top_rated'
-            >
-              Top rated
-            </NavLink>
-          </li>
-          <li className={style.item}>
-            <NavLink
-              className={style.link}
-              activeClassName={style.selected}
-              to='/favorite'
-            >
-              Favorite
-            </NavLink>
-          </li>
-          <li className={style.item}>
-            <NavLink
-              className={style.link}
-              activeClassName={style.selected}
-              to='/filter'
-            >
-              Filter
-            </NavLink>
-          </li>
-          <li className={style.item}>
-            <a
-              className={style.link}
-              href='https://github.com/ethnicolr/Movie-Search'
-              target='_blank'
-              rel='noopener noreferrer'
-            >
-              <img
-                src={github}
-                alt='github'
-                className={style.icon}
-                width='40'
-              />
-            </a>
-          </li>
-        </ul>
-      </div>
-    </nav>
+    <Nav ref={wrapperRef}>
+      <Toggle isHidden={isHidden} onClick={() => handleClickBtn()} />
+      <Items>
+        <Item>
+          <Link exact to='/'>
+            Popular
+          </Link>
+        </Item>
+        <Item>
+          <Link to='/upcoming'>Up comning</Link>
+        </Item>
+        <Item>
+          <Link to='/top_rated'>Top rated</Link>
+        </Item>
+        <Item>
+          <Link to='/favorite'>Favorite</Link>
+        </Item>
+        <Item>
+          <Link to='/filter'>Filter</Link>
+        </Item>
+        <Item>
+          <a
+            href='https://github.com/ethnicolr/Movie-Search'
+            target='_blank'
+            rel='noopener noreferrer'
+          >
+            <Icon src={github} alt='github' width='40' />
+          </a>
+        </Item>
+      </Items>
+    </Nav>
   )
 }

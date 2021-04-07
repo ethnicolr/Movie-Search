@@ -1,15 +1,27 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../app/store'
 import { MoviesList } from './MoviesList'
-import style from './moviesListPage.module.css'
+import { useAuth } from './../../context/authContext'
+import { getFavorite, MovieType } from './../../api/movieApi'
 
 export const moviesFavorite = () => {
-  const movies = useSelector((state: RootState) => state.movies.favorite)
+  const [movies, setMovies] = useState<MovieType[]>([])
+  // const movies = useSelector((state: RootState) => state.movies.favorite)
+  const { favoriteList } = useAuth()
+
+  useEffect(() => {
+    const fetchApi = async () => {
+      const favorite = await getFavorite(favoriteList)
+      setMovies(favorite)
+    }
+    fetchApi()
+  }, [])
 
   return (
-    <div className={style.listMovies}>
-      <MoviesList movies={movies} favorite={movies} />
+    <div>
+      <h1>Test</h1>
+      <MoviesList movies={movies} />
     </div>
   )
 }

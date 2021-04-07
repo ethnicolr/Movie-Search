@@ -1,20 +1,67 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import {Image} from "../../app/image";
-import add from "./../../style/correct.svg";
-import remove from "./../../style/minus.svg";
-import star from "./../../style/star.svg";
-import { addFavorite, deleteFavorite } from "./moviesSlice";
-import { MovieType } from "../../api/movieApi";
-import style from './moviesListItem.module.css'
+import React from 'react'
+import { Link } from 'react-router-dom'
+import { Image } from '../../app/Image'
+import { MovieType } from '../../api/movieApi'
+import { useAuth } from '../../context/authContext'
+import { Title, Thumb } from '../../app/lib'
+import star from './../../style/star.svg'
+import add from './../../style/correct.svg'
+import remove from './../../style/minus.svg'
+import styled from 'styled-components'
 
 type PropMovie = {
-  movieData: MovieType;
-  isFav: boolean;
-};
+  movieData: MovieType
+  isFav: boolean
+}
 
-export const Movie = React.memo(({movieData, isFav } : PropMovie) => {
+const MovieContainer = styled.div`
+  position: relative;
+  z-index: 5;
+  height: 100%;
+  text-align: center;
+  background-color: #0b0b0b;
+  color: #fff;
+  padding-bottom: 10px;
+  font-weight: 600;
+  box-shadow: 2px 0px 5px 2px rgba(0, 0, 0, 0.75);
+  border-radius: 0 0 5px 5px;
+`
+
+type ContainerProps = {
+  border?: boolean
+}
+const Container = styled.div<ContainerProps>`
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 0;
+  ${(props) =>
+    props.border ? 'border-bottom: 1px solid rgb(80, 80, 80);' : ''}
+`
+
+const Button = styled.button`
+  position: absolute;
+  z-index: 40;
+  width: 32px;
+  height: 32px;
+  top: 10px;
+  right: -10px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  outline: none;
+  border: 1px solid #3c4043;
+  background-color: #212121;
+`
+
+const ContainerDesc = styled.div`
+  padding: 10px 12px 0 12px;
+`
+
+const ContainerImg = styled.div`
+  height: 315px;
+`
+
+export const Movie = React.memo(({ movieData, isFav }: PropMovie) => {
   const {
     title,
     vote_average = 0,
@@ -24,51 +71,59 @@ export const Movie = React.memo(({movieData, isFav } : PropMovie) => {
     name,
     media_type,
     id,
-  } = movieData;
-  const dispatch = useDispatch();
+  } = movieData
+  const {
+    currentUser,
+    handleLoginModal,
+    addToStorage,
+    deleteFromStorage,
+  } = useAuth()
 
   const handleFavorite = () => {
-    isFav ? dispatch(deleteFavorite(id)) : dispatch(addFavorite(movieData));
-  };
+    if (!currentUser) {
+      handleLoginModal(true)
+      return
+    }
+    isFav ? deleteFromStorage(movieData.id) : addToStorage(movieData.id)
+  }
 
-  const link = media_type ? media_type : "movie";
+  const titleValue = title || name
+  const dateValue =
+    release_date || first_air_date
+      ? (release_date || first_air_date).split(/-/)[0]
+      : null
+
+  const link = `/${media_type ? media_type : 'movie'}/${id}`
   return (
-    <div className={style.movie}>
-      <div className={style.img}>
-        <Link to={`/${link}/${id}`}>
-          <Image
-            src={`https://image.tmdb.org/t/p/w300/${poster_path}`}
-          />
+    <MovieContainer>
+      <ContainerImg>
+        <Link to={link}>
+          <Image src={`https://image.tmdb.org/t/p/w300/${poster_path}`} />
         </Link>
-      </div>
+      </ContainerImg>
 
-      <div className={style.desc}>
+      <ContainerDesc>
         <Link to={`/${media_type}/${id}`}>
-          <h3 className={style.title}>{title || name}</h3>
+          <Title>{titleValue}</Title>
         </Link>
-        <div className={`${style.container} ${style.underline}`}>
-          <span className={style.text}>Age: </span>
-          <span className={style.text}>
-            {release_date || first_air_date
-              ? (release_date || first_air_date).split(/-/)[0]
-              : null}
-          </span>
-        </div>
+        <Container border>
+          <Title>Age: </Title>
+          <Title>{dateValue}</Title>
+        </Container>
 
-        <div className={style.container}>
-          <span className={style.text}>Rating</span>
-          <span className={style.text}>
+        <Container>
+          <Title>Rating</Title>
+          <Title>
             {vote_average}
-            <img className={style.thumb} src={star} alt="vote" />
-          </span>
-        </div>
-      </div>
-      <button className={style.btn} onClick={handleFavorite}>
-        <img src={isFav ? add : remove} alt="favorite" />
-      </button>
-    </div>
-  );
+            <Thumb width={'10px'} src={star} alt='vote' />
+          </Title>
+        </Container>
+      </ContainerDesc>
+      <Button onClick={handleFavorite}>
+        <img src={isFav ? add : remove} alt='favorite' />
+      </Button>
+    </MovieContainer>
+  )
 })
 
-Movie.displayName = "Moviu"
-
+Movie.displayName = 'Moviu'

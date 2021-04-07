@@ -1,12 +1,14 @@
 import React from 'react'
 import { Status, MoviesResult } from '../../api/movieApi'
 import { Pagination, OnPageChangeCallback } from './moviesPagination'
-import { useSelector } from 'react-redux'
-import { RootState } from '../../app/store'
 import { MoviesList } from './MoviesList'
 import { Spinner } from './../../app/Spinner'
-import style from './moviesListPage.module.css'
+import styled from 'styled-components'
 
+const Container = styled.div`
+  width: 80%;
+  margin: 55px auto;
+`
 interface Props {
   status: Status
   moviesData: MoviesResult | null
@@ -14,33 +16,31 @@ interface Props {
 }
 
 export const MoviesListPage = ({ status, moviesData, onPageChange }: Props) => {
-  const favorite = useSelector((state: RootState) => state.movies.favorite)
-
   if (moviesData == null || status == 'fetching') {
     return (
-      <div className={style.listMovies}>
+      <Container>
         <Spinner />
-      </div>
+      </Container>
     )
   }
 
   if (status == 'fetched' && moviesData.moviesList.length == 0) {
     return (
-      <div className={style.listMovies}>
+      <Container>
         <h2>Not fount</h2>
-      </div>
+      </Container>
     )
   }
 
   const { moviesList, totalPages, page } = moviesData
   return (
-    <div className={style.listMovies}>
-      <MoviesList movies={moviesList} favorite={favorite} />
+    <Container>
+      <MoviesList movies={moviesList} />
       <Pagination
         pageCount={totalPages}
         currentPage={page}
         onPageChange={onPageChange}
       />
-    </div>
+    </Container>
   )
 }

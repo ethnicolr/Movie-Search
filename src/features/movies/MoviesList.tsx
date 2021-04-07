@@ -1,26 +1,43 @@
-import React, {useState, useEffect} from 'react'
-
+import React from 'react'
 import { MovieType } from '../../api/movieApi'
-import {Movie} from './moviesListItem'
-import style from './moviesList.module.css'
+import { Movie } from './moviesListItem'
+import { useAuth } from './../../context/authContext'
+import { device } from './../../app/lib'
+import styled from 'styled-components'
 
 interface MoviesProp {
   movies: MovieType[]
-  favorite: MovieType[]
 }
 
-export const MoviesList = ({ movies, favorite }: MoviesProp) => {
+const ListItems = styled.ul`
+  position: relative;
+  flex-wrap: wrap;
+  display: flex;
+  justify-content: center;
+`
+
+const Item = styled.li`
+  width: 210px;
+  max-height: 480px;
+  margin-right: 35px;
+  margin-bottom: 45px;
+  @media ${device.mobileM} {
+    margin-right: 0;
+  }
+`
+
+export const MoviesList = ({ movies }: MoviesProp) => {
+  const { favoriteList } = useAuth()
   return (
-    <ul className={style.moviesList}>
+    <ListItems>
       {movies.map((movie) => {
-        const isFav = favorite.some((favorite) => favorite.id === movie.id)
+        const isFav = favoriteList.some((id) => id === movie.id)
         return (
-          <li className={style.item} key={movie.id}>
+          <Item key={movie.id}>
             <Movie movieData={movie} isFav={isFav} />
-          </li>
+          </Item>
         )
       })}
-    </ul>
+    </ListItems>
   )
 }
-
