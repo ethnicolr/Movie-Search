@@ -1,15 +1,8 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
+import { Spinner } from '../../app/Spinner'
 import { useAuth, singupType, loginType } from '../../context/authContext'
-import {
-  Input,
-  FormGroup,
-  Form,
-  Button,
-  Spinner,
-  Dots,
-  Dot,
-} from './../../app/lib'
+import { Input, FormGroup, Form, Button } from './../../app/lib'
 import { useAsync } from './../../hooks/useAsync'
 
 const LoginButton = styled(Button)`
@@ -38,10 +31,10 @@ type FormProps = {
 export function AuthLogin({ showRegister }: FormProps): JSX.Element {
   const { login } = useAuth()
 
-  const { error, run, isLoading, isError } = useAsync()
+  const { run, error, isLoading, isError } = useAsync()
+
   const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault()
-
     const target = e.target as typeof e.target & {
       email: { value: string }
       password: { value: string }
@@ -65,13 +58,7 @@ export function AuthLogin({ showRegister }: FormProps): JSX.Element {
       <div>
         <LoginButton type='submit'>
           {isLoading ? (
-            <Spinner>
-              <Dots>
-                <Dot bgColor={'#fff'} />
-                <Dot bgColor={'#fff'} />
-                <Dot bgColor={'#fff'} />
-              </Dots>
-            </Spinner>
+            <Spinner color={'#fff'} width={'15px'} height={'15px'} />
           ) : (
             'Login'
           )}

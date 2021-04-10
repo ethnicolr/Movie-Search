@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { request } from 'http'
-export const API_KEY = 'api_key=7f68618aa54d9ed1ed130222e4778d53'
+export const API_KEY = 'api_key=33691dc9097a0a10121b027c1856edd7'
 
 export interface Details {
   id: string
@@ -38,7 +38,7 @@ export interface MoviesResult {
 }
 
 export interface Options {
-  pathname: keyof typeof getUrl
+  pathname: keyof typeof getUrl | '/favorite'
   search?: string
   page?: number
   genres?: string[]
@@ -77,6 +77,8 @@ export const getUrl = {
     `https://api.themoviedb.org/3/movie/${options.movieId}/credits?&${API_KEY}&language=en-US`,
   '/similar': (options: Options): string =>
     `https://api.themoviedb.org/3/movie/${options.movieId}/similar?&${API_KEY}&language=en-USpage=1`,
+  '/favorite': (options: Options): string =>
+    `https://api.themoviedb.org/3/movie/${options.movieId}?&${API_KEY}&language=en-US`,
 }
 
 export type fetchMovieType = keyof typeof getUrl
@@ -118,7 +120,7 @@ export async function getMovies(options: Options): Promise<MoviesResult> {
   }
 }
 
-export async function gethDetails(movieId: string): Promise<DetailsResult> {
+export async function getDetails(movieId: string): Promise<DetailsResult> {
   const detailsUrl = `https://api.themoviedb.org/3/movie/${movieId}?&${API_KEY}&language=en-US`
   const castUrl = `https://api.themoviedb.org/3/movie/${movieId}/credits?&${API_KEY}&language=en-US`
   try {
@@ -134,12 +136,12 @@ export async function gethDetails(movieId: string): Promise<DetailsResult> {
 }
 
 export async function getFavorite(list: string[]): Promise<MovieType[]> {
+  console.log('tru get favor')
   try {
     const favoriteList = await Promise.all(
       list.map(async (id) => {
-        const response = await axios.get(
-          `https://api.themoviedb.org/3/movie/${id}?${API_KEY}&language=en-US`
-        )
+        const url = getUrl['/favorite']({ movieId: id, pathname: '/favorite' })
+        const response = await axios.get(url)
         return response.data
       })
     )

@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
-import { fetchMovieType } from '../../api/movieApi'
+import { fetchMovieType, getMovies, MoviesResult } from '../../api/movieApi'
+import { useAsync } from '../../hooks/useAsync'
 import { useFetch } from '../../hooks/useFetch'
 import { MoviesListPage } from './moviesListPage'
 import { OnPageChangeCallback } from './moviesPagination'
@@ -14,8 +15,12 @@ export const moviesCategory = () => {
     const newPage = selectedItem.selected + 1
     setPage(newPage)
   }
-
-  const { status, data } = useFetch({ pathname, page })
+  const options = { pathname, page }
+  const { run, status, data } = useAsync<MoviesResult>()
+  useEffect(() => {
+    run(getMovies(options))
+  }, [location, pathname])
+  // const { status, data } = useFetch({ pathname, page })
 
   return (
     <MoviesListPage

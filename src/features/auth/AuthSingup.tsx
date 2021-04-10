@@ -3,10 +3,34 @@ import styled from 'styled-components'
 import { Input, FormGroup, Form, Button } from './../../app/lib'
 
 import { useAuth, singupType, loginType } from '../../context/authContext'
+import { useAsync } from '../../hooks/useAsync'
+import { Spinner } from '../../app/Spinner'
 
-export function AuthSingup(): JSX.Element {
+const LoginButton = styled(Button)`
+  background-color: #0b0b0b;
+  color: #fff;
+  width: 100%;
+`
+const Link = styled.a`
+  text-decoration: none;
+  cursor: pointer;
+  font-weight: 400;
+  color: #0366d6;
+`
+const LinkContainer = styled.p`
+  padding: 15px 20px;
+  text-align: center;
+  border: 1px solid var(--color-border-tertiary);
+  border-radius: 6px;
+  font-weight: 400;
+`
+type FormProps = {
+  showLogin: () => void
+}
+
+export function AuthSingup({ showLogin }: FormProps): JSX.Element {
   const { login, singup } = useAuth()
-  const [error, setError] = useState('')
+  const { run, error, isLoading, isError } = useAsync()
 
   const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault()
@@ -14,22 +38,11 @@ export function AuthSingup(): JSX.Element {
     const target = e.target as typeof e.target & {
       email: { value: string }
       password: { value: string }
-      passwordConfirm: { value: string }
     }
     const email = target.email.value
     const password = target.password.value
-    const passwordConfirm = target.passwordConfirm.value
 
-    if (password !== passwordConfirm) {
-      setError('Passwords do not match')
-      return
-    }
-
-    try {
-      await singup(email, password)
-    } catch (err) {
-      setError(err.message)
-    }
+    run(singup(email, password))
   }
 
   return (
@@ -42,14 +55,21 @@ export function AuthSingup(): JSX.Element {
         <label htmlFor='password'>Password</label>
         <Input id='password' type='password' />
       </FormGroup>
-      <FormGroup>
-        <label htmlFor='passwordConfirm'>Confirm password</label>
-        <Input id='passwordConfirm' type='password' />
-      </FormGroup>
-      <FormGroup>
-        <Button type='submit'>Register</Button>
-      </FormGroup>
-      {error && <h1>{error}</h1>}
+
+      <div>
+        <LoginButton type='submit'>
+          {isLoading ? (
+            <Spinner color={'#fff'} width={'15px'} height={'15px'} />
+          ) : (
+            'Register'
+          )}
+        </LoginButton>
+      </div>
+
+      <FormGroup>{isError && <p>{error}</p>}</FormGroup>
+      <LinkContainer>
+        <Link onClick={showLogin}>Login</Link>
+      </LinkContainer>
     </Form>
   )
 }

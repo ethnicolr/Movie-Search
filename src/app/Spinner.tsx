@@ -1,4 +1,5 @@
 import React from 'react'
+import { StringDecoder } from 'string_decoder'
 import styled from 'styled-components'
 
 const Container = styled.div`
@@ -10,10 +11,12 @@ const Dots = styled.div`
 
 type DotProps = {
   bgColor?: string
+  width?: string
+  height?: string
 }
 const Dot = styled.div<DotProps>`
-  width: 20px;
-  height: 20px;
+  width: ${(props) => props.width || '20px'};
+  height: ${(props) => props.height || '20px'};
   background-color: transparent;
   position: relative;
   display: inline-block;
@@ -25,10 +28,10 @@ const Dot = styled.div<DotProps>`
     left: 0;
     z-index: 1;
     content: '';
-    width: 20px;
-    height: 20px;
     border-radius: 50%;
     background-color: ${(props) => props.bgColor || '#000000'};
+    width: ${(props) => props.width || '20px'};
+    height: ${(props) => props.height || '20px'};
     display: inline-block;
     animation-name: scale;
     animation-duration: 900ms;
@@ -56,16 +59,20 @@ const Dot = styled.div<DotProps>`
   }
 `
 
-export const Spinner = () => {
+type SpinnerProps = {
+  color?: string
+  width?: string
+  height?: string
+}
+
+export const Spinner = ({ color, width, height }: SpinnerProps) => {
   return (
     <Container>
       <Dots>
-        <Dot />
-        <Dot />
-        <Dot />
+        <Dot width={width} height={height} bgColor={color} />
+        <Dot width={width} height={height} bgColor={color} />
+        <Dot width={width} height={height} bgColor={color} />
       </Dots>
     </Container>
   )
 }
-
-export default Spinner

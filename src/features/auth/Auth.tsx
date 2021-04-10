@@ -60,7 +60,12 @@ export function Auth() {
 
           <AuthModal title={'Register'} isOpen={isOpenSingUp} ref={singUpRef}>
             <Button onClick={() => handleSingUpModal(false)}>Close</Button>
-            <AuthSingup />
+            <AuthSingup
+              showLogin={() => {
+                handleLoginModal(true)
+                handleSingUpModal(false)
+              }}
+            />
           </AuthModal>
         </Fragment>
       )}

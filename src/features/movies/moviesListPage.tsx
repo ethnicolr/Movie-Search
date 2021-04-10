@@ -10,7 +10,8 @@ const Container = styled.div`
   margin: 55px auto;
 `
 interface Props {
-  status: Status
+  // status: Status
+  status: string
   moviesData: MoviesResult | null
   onPageChange: OnPageChangeCallback
 }

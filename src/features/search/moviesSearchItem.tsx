@@ -55,7 +55,6 @@ export const MoviesSearchItem = ({ movie }: Props) => {
   const poster = `https://image.tmdb.org/t/p/w300/${poster_path}`
   return (
     <Item to={link}>
-      {/* <Image src={poster} size={'50px'} /> */}
       <Image src={poster} size={'50px'} />
       <Title>{heading}</Title>
       <Vote>

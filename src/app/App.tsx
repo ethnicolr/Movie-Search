@@ -5,13 +5,29 @@ import { MovieDetails } from '../features/movies/MovieDetails'
 import { FilterPage } from '../features/filter/filerPage'
 import { moviesCategory } from '../features/movies/moviesLoadCategory'
 import { moviesSearch } from '../features/movies/moviesLoadSearch'
-import { moviesFavorite } from '../features/movies/moviesLoadFavorite'
+import { MoviesContainerFavorite } from '../features/movies/MoviesContainerFavorite'
+import { MoviesContainer } from '../features/movies/MoviesContainer'
+import { MovieContainerDetails } from './../features/movies/MoviesContainerDetails'
 
 function App() {
   return (
     <div>
       <Header />
       <Switch>
+        <Route exact path='/' component={MoviesContainer} />
+        <Route exact path='/upcoming' component={MoviesContainer} />
+        <Route exact path='/top_rated' component={MoviesContainer} />
+        <Route exact path='/search' component={MoviesContainer} />
+        <Route exact path='/favorite' component={MoviesContainerFavorite} />
+        <Route exact path='/filter' component={FilterPage} />
+        {/* <Route exact path={`/:media_type/:movieId`} component={MovieDetails} /> */}
+        <Route
+          exact
+          path={`/:media_type/:movieId`}
+          component={MovieContainerDetails}
+        />
+      </Switch>
+      {/* <Switch>
         <Route exact path='/' component={moviesCategory} />
         <Route exact path='/upcoming' component={moviesCategory} />
         <Route exact path='/top_rated' component={moviesCategory} />
@@ -19,7 +35,7 @@ function App() {
         <Route exact path='/search' component={moviesSearch} />
         <Route exact path='/filter' component={FilterPage} />
         <Route exact path={`/:media_type/:movieId`} component={MovieDetails} />
-      </Switch>
+      </Switch> */}
     </div>
   )
 }

@@ -2,11 +2,14 @@ import React, { useEffect } from 'react'
 
 export function useClickOutSide(
   ref: React.RefObject<HTMLElement>,
-  callback: () => void
+  callbackOut: () => void,
+  callbackOutInner?: () => void
 ): void {
   const handleClick = (e: MouseEvent) => {
     if (ref.current && !ref.current.contains(e.target as Node)) {
-      callback()
+      callbackOut()
+    } else {
+      callbackOutInner && callbackOutInner()
     }
   }
   useEffect(() => {
