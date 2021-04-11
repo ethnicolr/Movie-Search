@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { changeGenres } from './filterSlice'
 import { RootState } from '../../app/store'
 import { fetchGenres } from './filterSlice'
-// import style from './filterGenres.module.css'
 import styled from 'styled-components'
 import { device, Title } from '../../app/lib'
 
@@ -90,7 +89,7 @@ const Checkmark = styled.span`
   }
 `
 
-export const FilterGenres = () => {
+export const FilterGenres = (): JSX.Element => {
   const dispatch = useDispatch()
   const genres = useSelector((state: RootState) => state.filter.genres)
 
@@ -106,7 +105,9 @@ export const FilterGenres = () => {
 
   return (
     <Container>
-      <Title size={'20px'}>Genres</Title>
+      <Title size={'20px'} color={'#000'}>
+        Genres
+      </Title>
       <List>
         {genres.length
           ? genres.map((genre) => {

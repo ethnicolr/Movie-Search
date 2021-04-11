@@ -30,7 +30,7 @@ const Thumb = styled.img`
   margin-left: 5px;
 `
 
-export const MoviesSearchItem = ({ movie }: Props) => {
+export const MoviesSearchItem = ({ movie }: Props): JSX.Element => {
   const {
     title,
     name,

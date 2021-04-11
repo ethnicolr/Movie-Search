@@ -44,6 +44,7 @@ export interface Options {
   genres?: string[]
   sortBy?: string
   movieId?: string
+  mediaType?: string
 }
 
 export interface Genre {
@@ -76,7 +77,7 @@ export const getUrl = {
   '/credits': (options: Options): string =>
     `https://api.themoviedb.org/3/movie/${options.movieId}/credits?&${API_KEY}&language=en-US`,
   '/similar': (options: Options): string =>
-    `https://api.themoviedb.org/3/movie/${options.movieId}/similar?&${API_KEY}&language=en-USpage=1`,
+    `https://api.themoviedb.org/3/${options.mediaType}/${options.movieId}/similar?&${API_KEY}&language=en-USpage=1`,
   '/favorite': (options: Options): string =>
     `https://api.themoviedb.org/3/movie/${options.movieId}?&${API_KEY}&language=en-US`,
 }
@@ -125,9 +126,9 @@ export async function getDetails(
   mediaType = 'movie'
 ): Promise<DetailsResult> {
   const detailsUrl = `https://api.themoviedb.org/3/${mediaType}/${movieId}?&${API_KEY}&language=en-US`
+  console.log(detailsUrl)
   const castUrl = `https://api.themoviedb.org/3/${mediaType}/${movieId}/credits?&${API_KEY}&language=en-US`
   try {
-    console.log(mediaType)
     const detailsResponse = await axios.get(detailsUrl)
     const creditsResponse = await axios.get(castUrl)
     return {
@@ -140,7 +141,6 @@ export async function getDetails(
 }
 
 export async function getFavorite(list: string[]): Promise<MovieType[]> {
-  console.log('tru get favor')
   try {
     const favoriteList = await Promise.all(
       list.map(async (id) => {

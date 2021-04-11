@@ -16,7 +16,7 @@ interface PropsParams {
   media_type: string
 }
 
-export const MovieContainerDetails = () => {
+export const MovieContainerDetails = (): JSX.Element | null => {
   const { movieId, media_type } = useParams<PropsParams>()
   const location = useLocation()
   const {
@@ -42,7 +42,9 @@ export const MovieContainerDetails = () => {
   }, [location.key])
 
   useEffect(() => {
-    fetchSimilar(getMovies({ pathname: '/similar', movieId }))
+    fetchSimilar(
+      getMovies({ pathname: '/similar', movieId, mediaType: media_type })
+    )
     fetchDetails(getDetails(movieId, media_type))
   }, [movieId])
 

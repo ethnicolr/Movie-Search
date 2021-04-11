@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useCallback } from 'react'
 import { debounce } from 'lodash'
-import { useHistory, useLocation } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import { useClickOutSide } from '../../hooks/useClickOutSide'
 import { useAsync } from '../../hooks/useAsync'
 import { getMovies, MoviesResult } from '../../api/movieApi'
@@ -32,10 +32,9 @@ const Text = styled.div`
   padding: 15px 5px;
 `
 
-export const MoviesSearchPage = () => {
+export function MoviesSearchPage(): JSX.Element {
   const [isHidden, setHidden] = useState(false)
   const history = useHistory()
-  const location = useLocation()
 
   const wrapperRef = React.useRef<HTMLDivElement | null>(null)
 
@@ -56,10 +55,9 @@ export const MoviesSearchPage = () => {
     }, 500),
     []
   )
-
-  useEffect(() => {
+  history.listen(() => {
     setHidden(true)
-  }, [location.key])
+  })
 
   useClickOutSide(
     wrapperRef,

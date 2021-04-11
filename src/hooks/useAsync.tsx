@@ -1,4 +1,4 @@
-import React, { Reducer, useReducer, useCallback } from 'react'
+import { Reducer, useReducer, useCallback } from 'react'
 
 type State<T> = {
   data: null | T

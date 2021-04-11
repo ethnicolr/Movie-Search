@@ -32,6 +32,7 @@ export const MoviesList = ({
   movies,
   favoriteList,
 }: Props): JSX.Element => {
+  console.log(status)
   if (status === 'pending') {
     return <Spinner />
   }

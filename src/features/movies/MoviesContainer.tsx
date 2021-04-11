@@ -56,21 +56,17 @@ export function MoviesContainer(): JSX.Element {
 
   return (
     <Container>
-      {data && (
-        <>
-          <MoviesList
-            status={status}
-            movies={data.moviesList}
-            favoriteList={favoriteList}
-          />
-          {Boolean(data.totalPages) && (
-            <Pagination
-              pageCount={data.totalPages}
-              currentPage={page}
-              onPageChange={onPageChange}
-            />
-          )}
-        </>
+      <MoviesList
+        status={status}
+        movies={data?.moviesList || []}
+        favoriteList={favoriteList}
+      />
+      {data && Boolean(data.totalPages) && (
+        <Pagination
+          pageCount={data.totalPages}
+          currentPage={page}
+          onPageChange={onPageChange}
+        />
       )}
     </Container>
   )

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react'
-import { NavLink, useLocation } from 'react-router-dom'
+import { NavLink, useLocation, useHistory } from 'react-router-dom'
 import github from './../style/github.svg'
 import styled from 'styled-components'
 import { device } from './lib'
@@ -27,7 +27,7 @@ const List = styled.ul`
     position: absolute;
     z-index: 100;
     left: 0;
-    bottom: -329px;
+    bottom: -350px;
     width: 250px;
     background-color: #212121;
     -webkit-font-smoothing: antialiased;
@@ -115,7 +115,7 @@ const Icon = styled.img`
 
 export function Navbar(): JSX.Element {
   const wrapperRef = useRef<HTMLElement | null>(null)
-  const location = useLocation()
+  const history = useHistory()
   const [isHidden, setHidden] = React.useState<boolean>(true)
 
   useClickOutSide(wrapperRef, () => {
@@ -123,10 +123,10 @@ export function Navbar(): JSX.Element {
     setHidden(true)
   })
 
-  useEffect(() => {
+  history.listen(() => {
     setHidden(true)
     document.body.classList.remove('overlay')
-  }, [location.key])
+  })
 
   const handleClickBtn = () => {
     if (isHidden) {

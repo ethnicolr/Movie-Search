@@ -4,7 +4,7 @@ import { sortBy } from './filterSlice'
 import { RootState } from './../../app/store'
 import style from './filterSorting.module.css'
 import styled from 'styled-components'
-import { Title } from '../../app/lib'
+import { device, Title } from '../../app/lib'
 
 const Container = styled.div`
   text-align: right;
@@ -14,9 +14,13 @@ const Container = styled.div`
 const Items = styled.ul`
   display: flex;
   justify-content: flex-end;
+  @media ${device.laptopS} {
+    flex-wrap: wrap;
+    max-height: none;
+  }
 `
 
-export const FilterSorting = () => {
+export const FilterSorting = (): JSX.Element => {
   const dispatch = useDispatch()
   const active = useSelector((state: RootState) => state.filter.sortBy)
 
@@ -32,7 +36,9 @@ export const FilterSorting = () => {
 
   return (
     <Container className={style.sort}>
-      <Title size={'20px'}>Sort by</Title>
+      <Title size={'20px'} color={'#000'}>
+        Sort by
+      </Title>
       <Items>
         <li>
           <button

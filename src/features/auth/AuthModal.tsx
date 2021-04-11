@@ -13,6 +13,7 @@ const Modal = styled.div({
   bottom: '0',
   margin: 'auto',
   backgroundColor: 'rgba(0,0,0, 0.5)',
+  zIndex: 100,
 })
 
 const InnerModal = styled.div`
@@ -27,6 +28,7 @@ const InnerModal = styled.div`
   background: white;
   border-radius: 2%;
   padding: 20px 10px;
+
   @media ${device.laptopM} {
     left: 10%;
     right: 10%;

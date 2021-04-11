@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import { Input, FormGroup, Form, Button } from './../../app/lib'
 
-import { useAuth, singupType, loginType } from '../../context/authContext'
+import { useAuth } from '../../context/authContext'
 import { useAsync } from '../../hooks/useAsync'
 import { Spinner } from '../../app/Spinner'
 
@@ -29,7 +29,7 @@ type FormProps = {
 }
 
 export function AuthSingup({ showLogin }: FormProps): JSX.Element {
-  const { login, singup } = useAuth()
+  const { singup } = useAuth()
   const { run, error, isLoading, isError } = useAsync()
 
   const handleSubmit = async (e: React.SyntheticEvent) => {

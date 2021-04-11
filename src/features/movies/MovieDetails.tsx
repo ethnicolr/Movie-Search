@@ -1,21 +1,14 @@
 import React, { useEffect } from 'react'
-import { useParams } from 'react-router-dom'
 import { MovieType, DetailsResult } from '../../api/movieApi'
-import { useFetch } from '../../hooks/useFetch'
-import { useAuth } from '../../context/authContext'
 import { MoviesList } from './MoviesList'
 import { Image } from '../../app/Image'
 import { Title, Text, device } from '../../app/lib'
-import { useHistory, useLocation } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import remove from './../../style/minus.svg'
 import vote from './../../style/star.svg'
 import add from './../../style/correct.svg'
 import styled from 'styled-components'
 
-interface PropsParams {
-  movieId: string
-  media_type: string
-}
 interface PropsType {
   data: DetailsResult
   onFavorite: (id: string) => void
@@ -140,7 +133,6 @@ export const MovieDetails = ({
   favoriteList,
   isFavorite,
 }: PropsType): JSX.Element => {
-  const { movieId, media_type } = useParams<PropsParams>()
   const location = useLocation()
 
   useEffect(() => {

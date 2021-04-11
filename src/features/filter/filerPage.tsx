@@ -20,10 +20,11 @@ const Filter = styled.div`
   min-height: 87vh;
   @media ${device.laptopS} {
     grid-template-areas:
-      ' gl'
+      'gl'
       'sr'
       'ml';
     grid-template-columns: 1fr;
+    grid-template-rows: none;
   }
 `
 
@@ -31,6 +32,9 @@ const Sort = styled.div`
   grid-area: sr;
   max-height: 45px;
   border-bottom: 1px solid #ddd;
+  @media ${device.laptopS} {
+    max-height: none;
+  }
 `
 
 const Genres = styled.div`

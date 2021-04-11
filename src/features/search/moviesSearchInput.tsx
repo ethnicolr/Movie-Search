@@ -31,7 +31,7 @@ const Button = styled.button`
 export const MoviesSearchInput = ({
   onSearchChange,
   onSearchSubmit,
-}: InputProps) => {
+}: InputProps): JSX.Element => {
   const [value, setValue] = useState('')
   const inputEl = React.useRef<HTMLInputElement>(null!)
 

@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
-import { BrowserRouter } from 'react-router-dom'
+import { BrowserRouter, HashRouter } from 'react-router-dom'
 import { AuthProvider } from './context/authContext'
 import firebase from 'firebase/app'
 import store from './app/store'
@@ -26,9 +26,9 @@ export const db = firebase.firestore()
 ReactDOM.render(
   <AuthProvider>
     <Provider store={store}>
-      <BrowserRouter>
+      <HashRouter>
         <App />
-      </BrowserRouter>
+      </HashRouter>
     </Provider>
   </AuthProvider>,
   document.getElementById('root')
