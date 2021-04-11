@@ -1,9 +1,7 @@
 import React from 'react'
 import { FilterGenres } from './filterGenres'
 import { FilterSorting } from './filterSorting'
-import { LoadFilterMovies } from '../movies/moviesLoadFilter'
 import { MoviesContainer } from '../movies/MoviesContainer'
-import style from './filerPage.module.css'
 import styled from 'styled-components'
 import { device } from '../../app/lib'
 
@@ -44,7 +42,7 @@ const Movies = styled.div`
   grid-area: ml;
 `
 
-export const FilterPage = () => {
+export const FilterPage = (): JSX.Element => {
   return (
     <Filter>
       <Sort>
@@ -55,7 +53,6 @@ export const FilterPage = () => {
       </Genres>
       <Movies>
         <MoviesContainer />
-        {/* <LoadFilterMovies /> */}
       </Movies>
     </Filter>
   )

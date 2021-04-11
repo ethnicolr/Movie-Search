@@ -10,7 +10,11 @@ interface Props {
   onPageChange?: OnPageChangeCallback
 }
 
-export const Pagination = ({ currentPage, onPageChange, pageCount }: Props) => {
+export const Pagination = ({
+  currentPage,
+  onPageChange,
+  pageCount,
+}: Props): JSX.Element => {
   return (
     <Paginate
       forcePage={currentPage}

@@ -27,7 +27,7 @@ const List = styled.ul`
     position: absolute;
     z-index: 100;
     left: 0;
-    bottom: -361px;
+    bottom: -329px;
     width: 250px;
     background-color: #212121;
     -webkit-font-smoothing: antialiased;
@@ -97,6 +97,14 @@ const Link = styled(NavLink).attrs({ activeClassName })`
   }
 `
 
+const LinkGit = styled.a`
+  @media ${device.laptopM} {
+    margin-left: 25px;
+    padding-bottom: 20px;
+    display: inline-block;
+  }
+`
+
 const Icon = styled.img`
   transition: opacity 0.3s ease;
   width: 25px;
@@ -105,7 +113,7 @@ const Icon = styled.img`
   }
 `
 
-export const Navbar = () => {
+export function Navbar(): JSX.Element {
   const wrapperRef = useRef<HTMLElement | null>(null)
   const location = useLocation()
   const [isHidden, setHidden] = React.useState<boolean>(true)
@@ -153,13 +161,13 @@ export const Navbar = () => {
           <Link to='/filter'>Filter</Link>
         </Item>
         <Item>
-          <a
+          <LinkGit
             href='https://github.com/ethnicolr/Movie-Search'
             target='_blank'
             rel='noopener noreferrer'
           >
             <Icon src={github} alt='github' width='40' />
-          </a>
+          </LinkGit>
         </Item>
       </Items>
     </Nav>

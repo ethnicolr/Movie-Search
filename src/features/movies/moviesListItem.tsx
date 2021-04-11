@@ -120,7 +120,7 @@ export const Movie = React.memo(({ movieData, isFav }: PropMovie) => {
         </Container>
       </ContainerDesc>
       <Button onClick={handleFavorite}>
-        <img src={isFav ? add : remove} alt='favorite' />
+        <img src={isFav ? add : remove} alt='add' />
       </Button>
     </MovieContainer>
   )

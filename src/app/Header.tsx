@@ -14,6 +14,7 @@ const Head = styled.header`
   z-index: 200;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
   background-color: #0b0b0b;
+  position: relative;
 `
 
 const Container = styled.div`
@@ -34,13 +35,26 @@ const Container = styled.div`
     margin: 0 25px;
     grid-template-columns: repeat(9, 1fr);
     grid-template-areas:
-      'nv . . lg lg lg . . .'
+      'nv . lg lg lg lg . at .'
       '. in in in in in in in .';
+  }
+
+  @media ${device.laptopS} {
+    grid-template-areas:
+      'nv lg lg lg lg lg lg at .'
+      '. in in in in in in in .';
+  }
+
+  @media ${device.mobileL} {
+    grid-template-areas:
+      'nv . . lg lg lg . . at'
+      'in in in in in in in in in';
   }
 
   @media ${device.mobileM} {
     grid-template-areas:
-      'nv . . lg lg lg . . .'
+      'nv . lg lg lg lg lg lg lg'
+      '. at at at at . . . .'
       'in in in in in in in in in';
     margin: 0 15px;
   }
@@ -59,7 +73,7 @@ const Logo = styled(Link)`
   }
 `
 
-export const Header = () => {
+export function Header(): JSX.Element {
   return (
     <Head>
       <Container>

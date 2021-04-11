@@ -1,15 +1,12 @@
 import React from 'react'
 import { Route, Switch } from 'react-router'
 import { Header } from './Header'
-import { MovieDetails } from '../features/movies/MovieDetails'
 import { FilterPage } from '../features/filter/filerPage'
-import { moviesCategory } from '../features/movies/moviesLoadCategory'
-import { moviesSearch } from '../features/movies/moviesLoadSearch'
 import { MoviesContainerFavorite } from '../features/movies/MoviesContainerFavorite'
 import { MoviesContainer } from '../features/movies/MoviesContainer'
 import { MovieContainerDetails } from './../features/movies/MoviesContainerDetails'
 
-function App() {
+function App(): JSX.Element {
   return (
     <div>
       <Header />
@@ -20,22 +17,12 @@ function App() {
         <Route exact path='/search' component={MoviesContainer} />
         <Route exact path='/favorite' component={MoviesContainerFavorite} />
         <Route exact path='/filter' component={FilterPage} />
-        {/* <Route exact path={`/:media_type/:movieId`} component={MovieDetails} /> */}
         <Route
           exact
           path={`/:media_type/:movieId`}
           component={MovieContainerDetails}
         />
       </Switch>
-      {/* <Switch>
-        <Route exact path='/' component={moviesCategory} />
-        <Route exact path='/upcoming' component={moviesCategory} />
-        <Route exact path='/top_rated' component={moviesCategory} />
-        <Route exact path='/favorite' component={moviesFavorite} />
-        <Route exact path='/search' component={moviesSearch} />
-        <Route exact path='/filter' component={FilterPage} />
-        <Route exact path={`/:media_type/:movieId`} component={MovieDetails} />
-      </Switch> */}
     </div>
   )
 }

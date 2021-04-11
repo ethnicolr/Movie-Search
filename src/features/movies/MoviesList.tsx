@@ -1,13 +1,9 @@
 import React from 'react'
 import { MovieType } from '../../api/movieApi'
+import { Spinner } from '../../app/Spinner'
+import { device } from '../../app/lib'
 import { Movie } from './moviesListItem'
-import { useAuth } from './../../context/authContext'
-import { device } from './../../app/lib'
 import styled from 'styled-components'
-
-interface MoviesProp {
-  movies: MovieType[]
-}
 
 const ListItems = styled.ul`
   position: relative;
@@ -25,9 +21,25 @@ const Item = styled.li`
     margin-right: 0;
   }
 `
+interface Props {
+  status: string
+  movies: MovieType[]
+  favoriteList: string[]
+}
 
-export const MoviesList = ({ movies }: MoviesProp) => {
-  const { favoriteList } = useAuth()
+export const MoviesList = ({
+  status,
+  movies,
+  favoriteList,
+}: Props): JSX.Element => {
+  if (status === 'pending') {
+    return <Spinner />
+  }
+
+  if (status == 'resolved' && movies.length == 0) {
+    return <h2>Not found</h2>
+  }
+
   return (
     <ListItems>
       {movies.map((movie) => {

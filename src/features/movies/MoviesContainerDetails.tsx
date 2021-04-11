@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { useAuth } from './../../context/authContext'
 import { useLocation } from 'react-router-dom'
-import { MovieDetails } from './MovieD'
+import { MovieDetails } from './MovieDetails'
 import { useAsync } from '../../hooks/useAsync'
 import {
   DetailsResult,
@@ -18,20 +18,7 @@ interface PropsParams {
 
 export const MovieContainerDetails = () => {
   const { movieId, media_type } = useParams<PropsParams>()
-  console.log(media_type)
   const location = useLocation()
-
-  const { data: dataDetails, run: fetchDetails } = useAsync<DetailsResult>()
-  const { data: dataSimilar, run: fetchSimilar } = useAsync<MoviesResult>()
-
-  useEffect(() => {
-    window.scrollTo(0, 0)
-  }, [location.key])
-
-  useEffect(() => {
-    fetchSimilar(getMovies({ pathname: '/similar', movieId }))
-    fetchDetails(getDetails(movieId))
-  }, [movieId])
   const {
     currentUser,
     handleLoginModal,
@@ -39,12 +26,27 @@ export const MovieContainerDetails = () => {
     deleteFromStorage,
     favoriteList,
   } = useAuth()
+  const {
+    data: dataDetails,
+    run: fetchDetails,
+    status: statusDetails,
+  } = useAsync<DetailsResult>()
+  const {
+    data: dataSimilar,
+    run: fetchSimilar,
+    status: statusSimilar,
+  } = useAsync<MoviesResult>()
+
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [location.key])
+
+  useEffect(() => {
+    fetchSimilar(getMovies({ pathname: '/similar', movieId }))
+    fetchDetails(getDetails(movieId, media_type))
+  }, [movieId])
 
   const isFavorite = favoriteList.some((id) => id == movieId)
-
-  //   if (error) {
-  //     return <h2 className='movie-details__title'>{error}</h2>
-  //   }
 
   const handleFavorite = (id: string) => {
     if (!currentUser) {
@@ -58,10 +60,12 @@ export const MovieContainerDetails = () => {
     dataDetails &&
     dataSimilar && (
       <MovieDetails
+        data={dataDetails}
         onFavorite={handleFavorite}
         isFavorite={isFavorite}
-        data={dataDetails}
         similarMovie={dataSimilar.moviesList}
+        statusSimilar={statusSimilar}
+        favoriteList={favoriteList}
       />
     )
   )

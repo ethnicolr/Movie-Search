@@ -1,29 +1,31 @@
 import React, { useState, useEffect } from 'react'
-import { useLocation } from 'react-router-dom'
 import { useSelector } from 'react-redux'
+import { useLocation } from 'react-router-dom'
+import { usePrevious } from '../../hooks/usePrevious'
+import { useAsync } from '../../hooks/useAsync'
+import { useAuth } from '../../context/authContext'
+import { isEqual } from 'lodash'
 import { RootState } from '../../app/store'
-
+import { Pagination, OnPageChangeCallback } from './moviesPagination'
+import { MoviesList } from './MoviesList'
+import styled from 'styled-components'
 import {
   pathnameType,
   MoviesResult,
   getMovies,
-  getFavorite,
-  MovieType,
   Options,
 } from '../../api/movieApi'
-import { useAsync } from '../../hooks/useAsync'
-import { useFetch } from '../../hooks/useFetch'
-import { MoviesListPage } from './moviesListPage'
-import { OnPageChangeCallback } from './moviesPagination'
-import { useAuth } from '../../context/authContext'
-import { MoviesList } from './MoviesList'
-import { usePrevious } from '../../hooks/usePrevious'
-import { isEqual } from 'lodash'
+
+const Container = styled.div`
+  width: 80%;
+  margin: 55px auto;
+`
 
 export function MoviesContainer(): JSX.Element {
   const location = useLocation()
   const { genres, sortBy } = useSelector((state: RootState) => state.filter)
   const { search } = useLocation()
+  const { favoriteList } = useAuth()
 
   const pathname = location.pathname as pathnameType
   const [page, setPage] = useState(1)
@@ -43,7 +45,7 @@ export function MoviesContainer(): JSX.Element {
   } else if (pathname === '/search') {
     options.search = search
   }
-  const { run, status, data } = useAsync<MoviesResult | MovieType[]>()
+  const { run, status, data } = useAsync<MoviesResult>()
 
   const previousOptions = usePrevious(options)
   useEffect(() => {
@@ -53,10 +55,23 @@ export function MoviesContainer(): JSX.Element {
   }, [options])
 
   return (
-    <MoviesListPage
-      status={status}
-      moviesData={data as MoviesResult}
-      onPageChange={onPageChange}
-    />
+    <Container>
+      {data && (
+        <>
+          <MoviesList
+            status={status}
+            movies={data.moviesList}
+            favoriteList={favoriteList}
+          />
+          {Boolean(data.totalPages) && (
+            <Pagination
+              pageCount={data.totalPages}
+              currentPage={page}
+              onPageChange={onPageChange}
+            />
+          )}
+        </>
+      )}
+    </Container>
   )
 }

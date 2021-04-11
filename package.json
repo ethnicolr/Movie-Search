@@ -2,7 +2,7 @@
   "name": "movie-search",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://ethnicolr.github.io/Movie-Search/",
+  "homepage": "https://ethnicolr.github.io/movies-search/",
   "dependencies": {
     "@reduxjs/toolkit": "^1.4.0",
     "@testing-library/jest-dom": "^5.11.5",

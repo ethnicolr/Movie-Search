@@ -1,6 +1,7 @@
 /* eslint react/prop-types: 0 */
 import React from 'react'
 import styled from 'styled-components'
+import { device } from '../../app/lib'
 
 const Modal = styled.div({
   position: 'fixed',
@@ -14,20 +15,24 @@ const Modal = styled.div({
   backgroundColor: 'rgba(0,0,0, 0.5)',
 })
 
-const InnerModal = styled.div({
-  position: 'absolute',
-  left: '25%',
-  right: '25%',
-  top: '25%',
-  bottom: '25%',
-  width: '350px',
-  height: 'fit-content',
-  margin: 'auto',
-  background: 'white',
-  borderRadius: '2%',
-  border: '1px solid black',
-  padding: '20px 10px',
-})
+const InnerModal = styled.div`
+  position: absolute;
+  left: 25%;
+  right: 25%;
+  top: 25%;
+  bottom: 25%;
+  width: 350px;
+  height: fit-content;
+  margin: auto;
+  background: white;
+  border-radius: 2%;
+  padding: 20px 10px;
+  @media ${device.laptopM} {
+    left: 10%;
+    right: 10%;
+    width: 78vw;
+  }
+`
 
 const Title = styled.h1({
   textAlign: 'center',

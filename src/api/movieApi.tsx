@@ -120,10 +120,14 @@ export async function getMovies(options: Options): Promise<MoviesResult> {
   }
 }
 
-export async function getDetails(movieId: string): Promise<DetailsResult> {
-  const detailsUrl = `https://api.themoviedb.org/3/movie/${movieId}?&${API_KEY}&language=en-US`
-  const castUrl = `https://api.themoviedb.org/3/movie/${movieId}/credits?&${API_KEY}&language=en-US`
+export async function getDetails(
+  movieId: string,
+  mediaType = 'movie'
+): Promise<DetailsResult> {
+  const detailsUrl = `https://api.themoviedb.org/3/${mediaType}/${movieId}?&${API_KEY}&language=en-US`
+  const castUrl = `https://api.themoviedb.org/3/${mediaType}/${movieId}/credits?&${API_KEY}&language=en-US`
   try {
+    console.log(mediaType)
     const detailsResponse = await axios.get(detailsUrl)
     const creditsResponse = await axios.get(castUrl)
     return {

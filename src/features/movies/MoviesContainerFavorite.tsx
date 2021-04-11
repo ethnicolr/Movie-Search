@@ -1,17 +1,26 @@
-import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
-import { RootState } from '../../app/store'
-import { MoviesList } from './MoviesList'
+import React, { useEffect } from 'react'
 import { useAuth } from '../../context/authContext'
-import { getFavorite, MovieType } from '../../api/movieApi'
 import { useAsync } from '../../hooks/useAsync'
+import { getFavorite, MovieType } from '../../api/movieApi'
+import { MoviesList } from './MoviesList'
+import styled from 'styled-components'
 
-export const MoviesContainerFavorite = () => {
+const Container = styled.div`
+  width: 80%;
+  margin: 55px auto;
+`
+export function MoviesContainerFavorite(): JSX.Element {
   const { favoriteList } = useAuth()
-  const { run, data } = useAsync<MovieType[]>()
+  const { run, data, status } = useAsync<MovieType[]>()
   useEffect(() => {
     run(getFavorite(favoriteList))
   }, [])
 
-  return <div>{data && <MoviesList movies={data} />}</div>
+  return (
+    <Container>
+      {data && (
+        <MoviesList movies={data} status={status} favoriteList={favoriteList} />
+      )}
+    </Container>
+  )
 }

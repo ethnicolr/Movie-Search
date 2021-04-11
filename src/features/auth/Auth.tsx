@@ -21,9 +21,10 @@ const Button = styled.button`
 const Container = styled.div({
   display: 'flex',
   justifyContent: 'flex-end',
+  gridArea: 'at',
 })
 
-export function Auth() {
+export function Auth(): JSX.Element {
   const loginRef = React.createRef<HTMLDivElement>()
   const singUpRef = React.createRef<HTMLDivElement>()
 

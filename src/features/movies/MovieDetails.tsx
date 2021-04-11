@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
-import { DetailsResult, getDetails } from '../../api/movieApi'
-import { useFetch } from './../../hooks/useFetch'
-import { useAuth } from './../../context/authContext'
+import { MovieType, DetailsResult } from '../../api/movieApi'
+import { useFetch } from '../../hooks/useFetch'
+import { useAuth } from '../../context/authContext'
 import { MoviesList } from './MoviesList'
-import { Image } from './../../app/Image'
+import { Image } from '../../app/Image'
 import { Title, Text, device } from '../../app/lib'
 import { useHistory, useLocation } from 'react-router-dom'
 import remove from './../../style/minus.svg'
@@ -15,6 +15,14 @@ import styled from 'styled-components'
 interface PropsParams {
   movieId: string
   media_type: string
+}
+interface PropsType {
+  data: DetailsResult
+  onFavorite: (id: string) => void
+  similarMovie: MovieType[]
+  isFavorite: boolean
+  favoriteList: string[]
+  statusSimilar: string
 }
 
 const Container = styled.div`
@@ -65,6 +73,10 @@ const ContainerImage = styled.div`
 `
 const ContainerDesc = styled.div`
   width: 55%;
+  margin-bottom: 50px;
+  @media ${device.laptopM} {
+    width: 100%;
+  }
 `
 const ContainerInfo = styled.div`
   display: flex;
@@ -120,50 +132,20 @@ const Button = styled.button`
   }
 `
 
-export const MovieDetails = () => {
-  const [data, setData] = React.useState<DetailsResult | null>(null)
-  const [error, setError] = React.useState(null)
+export const MovieDetails = ({
+  data,
+  onFavorite,
+  similarMovie,
+  statusSimilar,
+  favoriteList,
+  isFavorite,
+}: PropsType): JSX.Element => {
   const { movieId, media_type } = useParams<PropsParams>()
   const location = useLocation()
-
-  const { data: similarMovie } = useFetch({ pathname: '/similar', movieId })
 
   useEffect(() => {
     window.scrollTo(0, 0)
   }, [location.key])
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await getDetails(movieId)
-        setData(data)
-        setError(null)
-      } catch (err) {
-        setError(err)
-      }
-    }
-    fetchData()
-  }, [media_type, movieId])
-  const {
-    currentUser,
-    logout,
-    handleLoginModal,
-    isOpenLogin,
-    addToStorage,
-    deleteFromStorage,
-    favoriteList,
-  } = useAuth()
-
-  // const favorite = useSelector((state: RootState) => state.movies.favorite)
-  const isFav = favoriteList.some((id) => id == movieId)
-
-  if (error) {
-    return <h2 className='movie-details__title'>{error}</h2>
-  }
-
-  if (!data) {
-    return null
-  }
 
   const {
     title,
@@ -181,14 +163,6 @@ export const MovieDetails = () => {
     production_countries = [],
     budget = 0,
   } = data.movieDetails
-
-  const handleFavorite = () => {
-    if (!currentUser) {
-      handleLoginModal(true)
-      return
-    }
-    isFav ? deleteFromStorage(id) : addToStorage(id)
-  }
 
   const genresList = genres.length
     ? genres.map((movie) => ` ${movie.name.toLowerCase()}`).join()
@@ -268,14 +242,20 @@ export const MovieDetails = () => {
         <Title size={'30px'}>Overview</Title>
         <Text size={'18px'}> {overview} </Text>
 
-        <Button onClick={handleFavorite}>
-          <img src={isFav ? add : remove} alt='favorite' />
-          {isFav ? 'Delete from Favorite' : 'Add to Favorite'}
+        <Button onClick={() => onFavorite(id)}>
+          <img src={isFavorite ? add : remove} alt='favorite' />
+          {isFavorite ? 'Delete from Favorite' : 'Add to Favorite'}
         </Button>
       </ContainerDesc>
       <div>
-        <Title>Recommendations</Title>
-        {similarMovie ? <MoviesList movies={similarMovie.moviesList} /> : null}
+        <Title size={'25px'}>Recommendations</Title>
+        {similarMovie ? (
+          <MoviesList
+            movies={similarMovie}
+            favoriteList={favoriteList}
+            status={statusSimilar}
+          />
+        ) : null}
       </div>
     </Container>
   )

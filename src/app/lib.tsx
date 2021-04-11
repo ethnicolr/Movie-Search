@@ -36,6 +36,7 @@ interface TitleProps {
 const Title = styled.h2<TitleProps>`
   font-size: ${(props) => props.size || '18px'};
   color: ${(props) => props.color || '#fff'};
+  margin-bottom: 15px;
 `
 
 interface TextProps {
@@ -61,11 +62,11 @@ const FormGroup = styled.div({
 })
 
 const device = {
-  mobileL: `(max-width: 520px)`,
   mobileM: `(max-width: 400px)`,
-  laptopL: `(max-width: 1380px)`,
-  laptopM: `(max-width: 1000px)`,
+  mobileL: `(max-width: 520px)`,
   laptopS: `(max-width: 768px)`,
+  laptopM: `(max-width: 1000px)`,
+  laptopL: `(max-width: 1380px)`,
 }
 
 export { Input, FormGroup, Form, Button, Title, Text, device, Thumb }
